@@ -160,6 +160,12 @@ td small,.rowdesc{display:block;color:var(--muted);font-size:11.5px;line-height:
 .note h3{font-size:14.5px;margin-bottom:2px}
 .note p{margin:0;font-size:13px;color:var(--muted);line-height:1.6}
 
+/* ==== ໂໝດເຊື່ອງຕົວເລກ ==== */
+.nm{transition:filter .15s ease}
+body.hidenum .nm{filter:blur(7px);user-select:none;cursor:default}
+body.hidenum.editing .nm{filter:none;user-select:auto}   /* ແກ້ໄຂຢູ່ ຕ້ອງເຫັນຕົວເລກ */
+@media (prefers-reduced-motion:reduce){.nm{transition:none}}
+
 /* ==== edit mode ==== */
 .editonly{display:none}
 body.editing .editonly{display:inline-flex}
@@ -213,6 +219,7 @@ footer.foot{max-width:1180px;margin:0 auto;padding:6px 18px 40px;font-size:12px;
         <button id="btn-edit" class="sm">ແກ້ໄຂ</button>
         <button id="btn-save" class="sm primary editonly">ບັນທຶກຂຶ້ນເວັບ</button>
         <button id="btn-dl" class="sm">ດາວໂຫຼດ HTML</button>
+        <button id="btn-hide" class="sm" title="ເຊື່ອງ/ສະແດງ ຕົວເລກທັງໝົດ">ເຊື່ອງຕົວເລກ</button>
         <button id="btn-theme" class="themebtn" title="ສະຫຼັບໂໝດມືດ/ແຈ້ງ">◐</button>
       </div>
     </div>
@@ -412,15 +419,19 @@ let EDIT = false;
 
 /* ---------- helpers ---------- */
 const n = v => { const x = parseFloat(String(v).replace(/[^0-9.\-]/g, "")); return isFinite(x) ? x : 0; };
-const fmt = v => {
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+/* ຫໍ່ຕົວເລກໄວ້ໃນ .nm ເພື່ອໃຫ້ເຊື່ອງໄດ້ດ້ວຍປຸ່ມດຽວ */
+const nm = html => '<span class="nm">' + html + "</span>";
+const wrapNums = t => esc(t).replace(/[0-9][0-9,.\u2212-]*/g, m => nm(m));
+const fmtRaw = v => {
   const x = Math.round(n(v) * 100) / 100;
   return x.toLocaleString("en-US", { maximumFractionDigits: 2 }).replace(/^-/, "\u2212");
 };
-const pctTxt = (a, b) => b ? (a / b * 100).toFixed(1) + "%" : "—";
-const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const fmt = v => nm(fmtRaw(v));
+const pctTxt = (a, b) => b ? nm((a / b * 100).toFixed(1) + "%") : "—";
 /* ຊ່ອງແກ້ໄຂໄດ້: t=n ຄືຕົວເລກ, t=t ຄືຂໍ້ຄວາມ */
 const ed = (path, val, t) => '<span class="ed" data-p="' + path + '" data-t="' + (t || "t") + '">'
-  + (t === "n" ? fmt(val) : esc(val)) + "</span>";
+  + (t === "n" ? fmt(val) : wrapNums(val)) + "</span>";
 
 function getPath(p) { return p.split(".").reduce((o, k) => o == null ? o : o[k], DATA); }
 function setPath(p, v) {
@@ -450,11 +461,11 @@ function renderKpis(c) {
   const od = DATA.ar.filter(r => r.status === "od").reduce((s, r) => s + n(r.bal), 0);
   const k = [
     ["ເງິນສົດໃນມື (LDB)", fmt(c.cash), "ຍອດຍົກມາ " + fmt(DATA.openingCash) + " + ຮັບຈິງ − ຈ່າຍຈິງ", true],
-    ["ລູກໜີ້ຄ້າງຮັບ (AR)", fmt(c.ar), DATA.ar.filter(r => n(r.bal) > 0).length + " ໃບບິນຍັງບໍ່ຊຳລະ · ເກີນກຳນົດ " + fmt(od), false],
+    ["ລູກໜີ້ຄ້າງຮັບ (AR)", fmt(c.ar), nm(DATA.ar.filter(r => n(r.bal) > 0).length) + " ໃບບິນຍັງບໍ່ຊຳລະ · ເກີນກຳນົດ " + fmt(od), false],
     ["ກຳໄລສຸດທິ", fmt(c.net), "Net margin " + pctTxt(c.net, c.rev) + " ຂອງລາຍຮັບ " + fmt(c.rev), true],
     ["ຊັບສິນລວມ", fmt(c.assets), "ເງິນສົດ + ລູກໜີ້ + ຊັບສິນອື່ນ", false],
-    ["ເງິນສົດເປັນເງິນບາດ", fmt(DATA.thbCash), esc(DATA.thbNote), false],
-    ["ລູກໜີ້ອື່ນ (ນອກໃບບິນ)", fmt(DATA.otherAR), esc(DATA.otherARNote), false],
+    ["ເງິນສົດເປັນເງິນບາດ", fmt(DATA.thbCash), wrapNums(DATA.thbNote), false],
+    ["ລູກໜີ້ອື່ນ (ນອກໃບບິນ)", fmt(DATA.otherAR), wrapNums(DATA.otherARNote), false],
     ["ແບ່ງປັນຜົນໄດ້", fmt(c.dist), "ຫຼັງກັນທຶນສຳຮອງ " + fmt(DATA.reserveTarget), false]
   ];
   $("kpis").innerHTML = k.map(x =>
@@ -506,7 +517,7 @@ function renderArViz() {
   const html = rows.length
     ? '<div class="hbars">' + rows.map(([nm, v]) =>
       '<div class="nm">' + esc(nm) + "<small>"
-      + (v.cnt ? v.cnt + " ໃບບິນ" + (v.off ? " + ນອກໃບບິນ" : "") : "ນອກໃບບິນ") + "</small></div>"
+      + (v.cnt ? nm(v.cnt) + " ໃບບິນ" + (v.off ? " + ນອກໃບບິນ" : "") : "ນອກໃບບິນ") + "</small></div>"
       + '<div><div class="fill' + (v.cnt ? "" : " c2") + '" style="width:' + (v.amt / max * 100) + '%"></div></div>'
       + '<div class="val">' + fmt(v.amt) + "</div>").join("") + "</div>"
     : '<div class="muted">ບໍ່ມີໜີ້ຄ້າງຊຳລະ</div>';
@@ -529,7 +540,7 @@ function renderAging() {
   const tot = g.od.amt + g.op.amt + n(DATA.otherAR);
   $("aging-tbl").innerHTML =
     '<thead><tr><th>ສະຖານະ</th><th class="num">ຍອດຄ້າງ</th><th class="num">ສັດສ່ວນ</th></tr></thead><tbody>'
-    + rows.map(r => '<tr><td><span class="pill ' + r[1] + '">' + r[0] + "</span><small>" + esc(r[3]) + "</small></td>"
+    + rows.map(r => '<tr><td><span class="pill ' + r[1] + '">' + r[0] + "</span><small>" + wrapNums(r[3]) + "</small></td>"
       + '<td class="num' + (r[1] === "od" && r[2] ? " neg" : "") + '">' + fmt(r[2]) + "</td>"
       + '<td class="num muted">' + (r[2] ? pctTxt(r[2], tot) : "—") + "</td></tr>").join("")
     + '</tbody><tfoot><tr><td>ລວມຄ້າງຮັບ</td><td class="num">' + fmt(tot) + "</td><td></td></tr></tfoot>";
@@ -678,7 +689,7 @@ function render() {
   renderPl(c); renderCash(c); renderAr(c); renderDiv(c); renderOther(c); renderNotes();
   /* ຊ່ອງໃນຫົວເວັບ ແລະ footer */
   document.querySelectorAll("header [data-p], footer [data-p], #set-info [data-p]").forEach(el => {
-    el.textContent = getPath(el.dataset.p) ?? "";
+    el.innerHTML = wrapNums(getPath(el.dataset.p) ?? "");
   });
   document.querySelectorAll(".ed").forEach(el => {
     el.contentEditable = EDIT ? "true" : "false";
@@ -796,6 +807,16 @@ $("btn-dl").addEventListener("click", async () => {
     toast("ບັນທຶກໄຟລ໌ແລ້ວ — ເອົາໄປວາງໃສ່ເວັບໂຮສໃດກໍໄດ້");
   } catch (e) { toast("ຍົກເລີກການດາວໂຫຼດ"); }
 });
+
+/* ---------- ເຊື່ອງ / ສະແດງ ຕົວເລກ ---------- */
+function setHide(on) {
+  document.body.classList.toggle("hidenum", on);
+  $("btn-hide").textContent = on ? "ສະແດງຕົວເລກ" : "ເຊື່ອງຕົວເລກ";
+  $("btn-hide").classList.toggle("primary", on);
+  try { localStorage.setItem("nn-hide", on ? "1" : "0"); } catch (e) { }
+}
+$("btn-hide").addEventListener("click", () => setHide(!document.body.classList.contains("hidenum")));
+try { if (localStorage.getItem("nn-hide") === "1") setHide(true); } catch (e) { }
 
 /* ---------- ໂໝດມືດ / ແຈ້ງ ---------- */
 $("btn-theme").addEventListener("click", () => {
