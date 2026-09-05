@@ -1,0 +1,818 @@
+<title>ບົດລາຍງານການເງິນ ຮ້ານ ເອັນແອນເອັນ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Lao:wght@400;600;700&display=swap">
+<style>
+/* ==== ໂທນສີດຽວກັບລະບົບ NN Finance ==== */
+:root{
+  --bg:#f7f0e1; --card:#fffdf7; --ink:#2a1f1a; --muted:#8a7a6c; --line:#e6d9c2;
+  --accent:#b3241f; --accent-soft:#fdeee9; --good:#0f6f5c; --bad:#b3241f;
+  --surface:#fffdf7; --hover:#f6efe1; --ghost-hover:#efe5d2; --track:#ece0c9;
+  --pill-ok-bg:#e3f2ed; --pill-ok:#0f6f5c; --pill-warn-bg:#fbeddc; --pill-warn:#a2601a;
+  --pill-bad-bg:#fbe4e0; --pill-bad:#b3241f; --pill-op-bg:#efe9dd; --pill-op:#6d6153;
+  --focus:#f0c9c0; --focus-line:#d9a79b; --kpi-hi:linear-gradient(180deg,#fff6ec,#fffdf7);
+  --shadow:0 1px 2px rgba(56,32,24,.05),0 8px 24px rgba(56,32,24,.07);
+  --s1:#2f6f8f; --s2:#c9922e; --s3:#3f8f5e; --s4:#7c5cbf; --s5:#b3524a;
+  --radius:14px;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#17110e; --card:#201814; --ink:#f4e7d2; --muted:#a9977f; --line:#362a22;
+    --accent:#ef6b5e; --accent-soft:#2e1a16; --good:#5ed3b8; --bad:#f4736c;
+    --surface:#201814; --hover:#291f19; --ghost-hover:#2f241d; --track:#2f241d;
+    --pill-ok-bg:#123029; --pill-ok:#6bdcc2; --pill-warn-bg:#3a2a15; --pill-warn:#e8b06a;
+    --pill-bad-bg:#3d1e1a; --pill-bad:#f4837c; --pill-op-bg:#2b241d; --pill-op:#bdae99;
+    --focus:#7a3a30; --focus-line:#a04f43; --kpi-hi:linear-gradient(180deg,#2b1e17,#201814);
+    --shadow:0 1px 2px rgba(0,0,0,.42),0 8px 24px rgba(0,0,0,.34);
+    --s1:#6fb0cf; --s2:#e5b45c; --s3:#63c08c; --s4:#a68ce0; --s5:#e08a80;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#17110e; --card:#201814; --ink:#f4e7d2; --muted:#a9977f; --line:#362a22;
+  --accent:#ef6b5e; --accent-soft:#2e1a16; --good:#5ed3b8; --bad:#f4736c;
+  --surface:#201814; --hover:#291f19; --ghost-hover:#2f241d; --track:#2f241d;
+  --pill-ok-bg:#123029; --pill-ok:#6bdcc2; --pill-warn-bg:#3a2a15; --pill-warn:#e8b06a;
+  --pill-bad-bg:#3d1e1a; --pill-bad:#f4837c; --pill-op-bg:#2b241d; --pill-op:#bdae99;
+  --focus:#7a3a30; --focus-line:#a04f43; --kpi-hi:linear-gradient(180deg,#2b1e17,#201814);
+  --shadow:0 1px 2px rgba(0,0,0,.42),0 8px 24px rgba(0,0,0,.34);
+  --s1:#6fb0cf; --s2:#e5b45c; --s3:#63c08c; --s4:#a68ce0; --s5:#e08a80;
+}
+
+*{box-sizing:border-box}
+body{
+  background:var(--bg); color:var(--ink); margin:0;
+  font-family:"Noto Sans Lao","Lao Sangam MN",-apple-system,"Helvetica Neue",Arial,sans-serif;
+  font-size:15px; line-height:1.55; -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3{margin:0;font-weight:700;line-height:1.45}
+.wrap{max-width:1180px;margin:0 auto;padding:18px 18px 70px}
+.mono,.num{font-variant-numeric:tabular-nums}
+.muted{color:var(--muted)}
+.pos{color:var(--good)}.neg{color:var(--bad)}
+
+button{font-family:inherit;font-size:14px;cursor:pointer;border-radius:9px;border:1px solid var(--line);
+  background:var(--surface);color:var(--ink);padding:7px 13px;transition:.12s}
+button:hover{background:var(--hover)}
+button:focus-visible{outline:2px solid var(--focus-line);outline-offset:2px}
+button.primary{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
+button.primary:hover{filter:brightness(1.07)}
+button.ghost{background:transparent;border-color:transparent;color:var(--muted);padding:4px 8px}
+button.ghost:hover{background:var(--ghost-hover);color:var(--ink)}
+button.sm{padding:4px 9px;font-size:13px}
+.themebtn{width:36px;height:36px;padding:0;border-radius:10px;font-size:16px;line-height:1;flex:0 0 auto}
+
+/* ==== header ==== */
+header.top{background:var(--surface);border-bottom:1px solid var(--line)}
+.top .bar{max-width:1180px;margin:0 auto;padding:14px 18px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.logo{width:52px;height:52px;border-radius:11px;flex:0 0 auto;background:var(--accent-soft);
+  border:1px solid var(--focus-line);display:grid;place-items:center;font-weight:700;font-size:21px;color:var(--accent)}
+.top .who{flex:1;min-width:230px}
+.top .name{font-weight:700;font-size:19px;line-height:1.6;padding-top:2px}
+.top .sub{font-size:12.5px;color:var(--muted);line-height:1.6}
+.top .facts{display:flex;flex-wrap:wrap;gap:2px 14px;font-size:12.5px;color:var(--muted);line-height:1.6}
+.top .facts b{color:var(--ink);font-weight:600}
+.top .meta{margin-left:auto;text-align:right;line-height:1.7;font-size:12.5px;color:var(--muted)}
+.tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end;margin-top:5px}
+.savepill{display:inline-block;padding:2px 9px;border-radius:999px;font-size:11.5px;font-weight:600;
+  white-space:nowrap;background:var(--pill-op-bg);color:var(--pill-op)}
+.savepill.saved{background:var(--pill-ok-bg);color:var(--pill-ok)}
+.savepill.saving{background:var(--pill-warn-bg);color:var(--pill-warn)}
+.savepill.error{background:var(--pill-bad-bg);color:var(--pill-bad)}
+
+/* ==== tabs ==== */
+nav.tabs{max-width:1180px;margin:0 auto;padding:0 12px;display:flex;gap:2px;overflow-x:auto}
+nav.tabs button{border:0;background:transparent;border-radius:0;border-bottom:2.5px solid transparent;
+  padding:9px 13px;color:var(--muted);font-weight:600;white-space:nowrap}
+nav.tabs button:hover{background:transparent;color:var(--ink)}
+nav.tabs button.on{color:var(--accent);border-bottom-color:var(--accent)}
+
+/* ==== cards / kpi ==== */
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  box-shadow:var(--shadow);padding:16px 18px;margin-bottom:16px}
+.card>h2{font-size:16px;margin-bottom:2px}
+.card .hint{font-size:12.5px;color:var(--muted);margin-bottom:12px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(196px,1fr));gap:12px;margin-bottom:16px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;box-shadow:var(--shadow)}
+.kpi .k{font-size:12.5px;color:var(--muted)}
+.kpi .v{font-size:23px;font-weight:700;margin-top:3px;font-variant-numeric:tabular-nums;letter-spacing:-.3px}
+.kpi .n{font-size:12px;color:var(--muted);margin-top:2px;line-height:1.5}
+.kpi.hi{background:var(--kpi-hi);border-color:var(--focus-line)}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:820px){.split{grid-template-columns:1fr}}
+
+/* ==== table ==== */
+table{width:100%;border-collapse:collapse}
+th,td{padding:8px 10px;border-bottom:1px solid var(--line);font-size:14px;text-align:left;vertical-align:middle}
+th{font-size:12.5px;color:var(--muted);font-weight:600;white-space:nowrap}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+tbody tr:hover{background:var(--hover)}
+tfoot td{font-weight:700;border-top:2px solid var(--line);border-bottom:0}
+tr.sum td{font-weight:700;background:var(--hover)}
+.scroll{overflow-x:auto}
+td small,.rowdesc{display:block;color:var(--muted);font-size:11.5px;line-height:1.5}
+.pill{display:inline-block;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:600;white-space:nowrap}
+.pill.paid{background:var(--pill-ok-bg);color:var(--pill-ok)}
+.pill.part{background:var(--pill-warn-bg);color:var(--pill-warn)}
+.pill.od{background:var(--bad);color:#fff}
+.pill.op{background:var(--pill-op-bg);color:var(--pill-op)}
+
+/* ==== charts ==== */
+.stackbar{display:flex;gap:2px;height:28px;margin:14px 0 13px}
+.stackbar>span{min-width:3px;border-radius:2px}
+.stackbar>span:first-child{border-radius:4px 2px 2px 4px}
+.stackbar>span:last-child{border-radius:2px 4px 4px 2px}
+.legend{display:flex;flex-wrap:wrap;gap:10px 26px}
+.legend .li{display:flex;align-items:baseline;gap:8px;font-size:13.5px}
+.legend .chip{width:11px;height:11px;border-radius:3px;flex:0 0 auto;transform:translateY(1px)}
+.legend .amt{font-weight:700;font-variant-numeric:tabular-nums}
+.legend .sh{color:var(--muted);font-size:12.5px}
+.hbars{display:grid;grid-template-columns:minmax(96px,auto) 1fr auto;gap:11px 13px;align-items:center;margin-top:4px}
+.hbars .nm{font-size:13.5px;line-height:1.3}
+.hbars .nm small{color:var(--muted);display:block;font-size:11.5px}
+.hbars .fill{height:17px;border-radius:4px;background:var(--s1);min-width:3px}
+.hbars .fill.c2{background:var(--s2)}
+.hbars .val{font-weight:700;font-variant-numeric:tabular-nums;font-size:13.5px;white-space:nowrap}
+
+/* ==== cash flow steps ==== */
+.steps{border:1px solid var(--line);border-radius:11px;overflow:hidden}
+.steps .st{display:grid;grid-template-columns:1fr auto auto;gap:14px;align-items:baseline;
+  padding:11px 14px;border-bottom:1px solid var(--line)}
+.steps .st:last-child{border-bottom:0}
+.steps .st .t{font-size:14px}
+.steps .st .t small{display:block;color:var(--muted);font-size:11.5px}
+.steps .st .n{font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
+.steps .st.end{background:var(--accent-soft);border-top:1px solid var(--focus-line)}
+.steps .st.end .t{font-weight:700}
+.steps .st.end .n{font-size:18px;font-weight:700}
+
+/* ==== notes ==== */
+.notes{display:grid;gap:11px}
+.note{display:grid;grid-template-columns:auto 1fr auto;gap:12px;padding:13px 15px;border-radius:11px;
+  background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--muted)}
+.note.crit{border-left-color:var(--bad)}
+.note.warn{border-left-color:var(--pill-warn)}
+.note.info{border-left-color:var(--good)}
+.note .tag{font-size:11.5px;font-weight:700;padding:2px 9px;border-radius:999px;height:fit-content;
+  background:var(--pill-op-bg);color:var(--pill-op);white-space:nowrap}
+.note.crit .tag{background:var(--pill-bad-bg);color:var(--pill-bad)}
+.note.warn .tag{background:var(--pill-warn-bg);color:var(--pill-warn)}
+.note.info .tag{background:var(--pill-ok-bg);color:var(--pill-ok)}
+.note h3{font-size:14.5px;margin-bottom:2px}
+.note p{margin:0;font-size:13px;color:var(--muted);line-height:1.6}
+
+/* ==== edit mode ==== */
+.editonly{display:none}
+body.editing .editonly{display:inline-flex}
+body.editing td .editonly,body.editing .note .editonly{display:inline-flex}
+.ed{border-radius:4px;padding:0 2px;margin:0 -2px}
+body.editing .ed{
+  outline:1px dashed var(--focus-line);
+  background:var(--accent-soft);
+  cursor:text;min-width:26px;display:inline-block;
+}
+body.editing .ed:focus{outline:2px solid var(--focus-line);background:var(--surface)}
+.addrow{margin-top:10px}
+.hint-edit{display:none;font-size:12.5px;color:var(--muted);margin-bottom:10px;
+  background:var(--accent-soft);border:1px solid var(--focus-line);border-left:4px solid var(--accent);
+  border-radius:9px;padding:9px 13px;line-height:1.6}
+body.editing .hint-edit{display:block}
+.toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);background:#1c1917;color:#fff;
+  padding:9px 18px;border-radius:999px;font-size:14px;opacity:0;pointer-events:none;transition:.25s;z-index:99}
+.toast.on{opacity:1}
+
+footer.foot{max-width:1180px;margin:0 auto;padding:6px 18px 40px;font-size:12px;color:var(--muted);
+  display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between}
+
+@media print{
+  header.top .tools,nav.tabs,.editonly,.hint-edit,.toast{display:none!important}
+  section[data-view][hidden]{display:block!important}
+  section[data-view]{break-before:page}
+  section[data-view="dash"]{break-before:auto}
+  body{background:#fff}
+  .card,.kpi{break-inside:avoid;box-shadow:none}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<header class="top">
+  <div class="bar">
+    <div class="logo">N</div>
+    <div class="who">
+      <div class="name ed" data-p="shop.name">ຮ້ານ ເອັນແອນເອັນ</div>
+      <div class="sub"><span class="ed" data-p="shop.tagline">ບົດລາຍງານການເງິນ ແລະ ຜົນປະກອບການ</span></div>
+      <div class="facts">
+        <span>ຜູ້ຮັບຜິດຊອບ <b class="ed" data-p="shop.owner">ນານີ ໄຊຍະແສນ</b></span>
+        <span>ໂທ <b class="ed" data-p="shop.phone">98245194</b></span>
+        <span>ບັນຊີ <b class="ed" data-p="shop.acct">1601 2000 **** 8001</b></span>
+      </div>
+    </div>
+    <div class="meta">
+      <div><span class="ed" data-p="period">ໄລຍະ 6 ສິງຫາ – 3 ກັນຍາ 2026</span></div>
+      <div><span class="savepill" id="pill">ພ້ອມໃຊ້ງານ</span></div>
+      <div class="tools">
+        <button id="btn-edit" class="sm">ແກ້ໄຂ</button>
+        <button id="btn-save" class="sm primary editonly">ບັນທຶກຂຶ້ນເວັບ</button>
+        <button id="btn-dl" class="sm">ດາວໂຫຼດ HTML</button>
+        <button id="btn-theme" class="themebtn" title="ສະຫຼັບໂໝດມືດ/ແຈ້ງ">◐</button>
+      </div>
+    </div>
+  </div>
+  <nav class="tabs" id="tabs">
+    <button data-v="dash" class="on">ພາບລວມ</button>
+    <button data-v="pl">ລາຍຮັບ-ລາຍຈ່າຍ</button>
+    <button data-v="inv">ໃບຮຽກເກັບເງິນ</button>
+    <button data-v="ar">ລູກໜີ້ (AR)</button>
+    <button data-v="div">ປັນຜົນ / ຜູ້ຖືຫຸ້ນ</button>
+    <button data-v="set">ຕັ້ງຄ່າ &amp; ຂໍ້ມູນ</button>
+  </nav>
+</header>
+
+<div class="wrap">
+  <div class="hint-edit">
+    ໂໝດແກ້ໄຂເປີດຢູ່ — ກົດໃສ່ຕົວເລກ ຫຼື ຂໍ້ຄວາມທີ່ມີກອບຈຸດ ເພື່ອພິມທັບໄດ້ເລີຍ · ຍອດລວມ, ອັດຕາກຳໄລ ແລະ ກຣາຟ ຈະຄິດໄລ່ໃໝ່ໃຫ້ອັດຕະໂນມັດ · ແກ້ແລ້ວກົດ <b>ບັນທຶກຂຶ້ນເວັບ</b> ເພື່ອໃຫ້ທຸກຄົນທີ່ເປີດລິ້ງເຫັນສະບັບໃໝ່
+  </div>
+
+  <section data-view="dash">
+    <div class="kpis" id="kpis"></div>
+
+    <div class="split">
+      <div class="card">
+        <h2>ໂຄງສ້າງຊັບສິນລວມ</h2>
+        <div class="hint" id="asset-hint"></div>
+        <div id="asset-viz"></div>
+      </div>
+      <div class="card">
+        <h2>ໜີ້ຄ້າງຊຳລະ ແຍກຕາມລູກຄ້າ</h2>
+        <div class="hint">ຍອດທີ່ຍັງບໍ່ໄດ້ຮັບ ຮວມທັງໃນ ແລະ ນອກໃບບິນ</div>
+        <div id="ar-viz"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>ສັກກະຍະພາບການສ້າງກຳໄລ (Business Units)</h2>
+      <div class="hint">ລາຍຮັບ ແລະ ຕົ້ນທຶນ ແຍກຕາມສາຍທຸລະກິດ — ແກ້ໄຂຕົວເລກໄດ້ ແລ້ວອັດຕາກຳໄລຈະປ່ຽນຕາມ</div>
+      <div class="scroll"><table id="units-tbl"></table></div>
+      <div id="units-bars" style="margin-top:16px"></div>
+      <button class="sm editonly addrow" data-add="units">+ ເພີ່ມສາຍທຸລະກິດ</button>
+    </div>
+
+    <div class="card">
+      <h2>ຂໍ້ສັງເກດ ແລະ ສິ່ງທີ່ຄວນເຮັດຕໍ່</h2>
+      <div class="hint">ຈຸດທີ່ພົບຈາກການກວດຂໍ້ມູນ ຮຽງຕາມຄວາມສຳຄັນ</div>
+      <div class="notes" id="notes"></div>
+      <button class="sm editonly addrow" data-add="notes">+ ເພີ່ມຂໍ້ສັງເກດ</button>
+    </div>
+  </section>
+
+  <section data-view="pl" hidden>
+    <div class="split">
+      <div class="card">
+        <h2>ຜົນປະກອບການ (ກຳໄລ–ຂາດທຶນ)</h2>
+        <div class="hint">ແຍກ <b>ຍອດຍົກມາ</b> ວັນເປີດລະບົບ ອອກຈາກ <b>ການເຄື່ອນໄຫວໃໝ່</b> ເພື່ອເຫັນຜົນງານຈິງຂອງໄລຍະນີ້</div>
+        <div class="scroll"><table id="pl-tbl"></table></div>
+        <button class="sm editonly addrow" data-add="opex">+ ເພີ່ມຄ່າໃຊ້ຈ່າຍ</button>
+      </div>
+      <div class="card">
+        <h2>ການເຄື່ອນໄຫວເງິນສົດ</h2>
+        <div class="hint">ນັບສະເພາະເງິນທີ່ເຂົ້າ–ອອກຈິງ ຈຶ່ງບໍ່ເທົ່າກັບກຳໄລ</div>
+        <div class="steps" id="cash-steps"></div>
+        <button class="sm editonly addrow" data-add="flows">+ ເພີ່ມລາຍການ</button>
+      </div>
+    </div>
+  </section>
+
+  <section data-view="inv" hidden>
+    <div class="card">
+      <h2>ໃບຮຽກເກັບເງິນທັງໝົດ</h2>
+      <div class="hint" id="ar-hint"></div>
+      <div class="scroll"><table id="ar-tbl"></table></div>
+      <button class="sm editonly addrow" data-add="ar">+ ເພີ່ມໃບບິນ</button>
+    </div>
+  </section>
+
+  <section data-view="ar" hidden>
+    <div class="split">
+      <div class="card">
+        <h2>ໜີ້ຄ້າງຊຳລະ ແຍກຕາມລູກຄ້າ</h2>
+        <div class="hint">ຮຽງຈາກຍອດຫຼາຍໄປໜ້ອຍ</div>
+        <div id="ar-viz2"></div>
+      </div>
+      <div class="card">
+        <h2>ສະຖານະການເກັບໜີ້</h2>
+        <div class="hint">ແຍກຕາມກຳນົດຊຳລະ — ຕົວເລກມາຈາກຕາຕະລາງໃບບິນ</div>
+        <div class="scroll"><table id="aging-tbl"></table></div>
+      </div>
+    </div>
+  </section>
+
+  <section data-view="div" hidden>
+    <div class="card">
+      <h2>ທຶນສຳຮອງ ແລະ ເງິນປັນຜົນ</h2>
+      <div class="hint" id="div-hint"></div>
+      <div class="scroll"><table id="div-tbl"></table></div>
+    </div>
+  </section>
+
+  <section data-view="set" hidden>
+    <div class="split">
+      <div class="card" id="set-info">
+        <h2>ຂໍ້ມູນຮ້ານ ແລະ ໄລຍະລາຍງານ</h2>
+        <div class="hint">ກົດ <b>ແກ້ໄຂ</b> ຢູ່ຫົວເວັບກ່ອນ ຈຶ່ງພິມທັບຊ່ອງເຫຼົ່ານີ້ໄດ້</div>
+        <div class="scroll"><table>
+          <tbody>
+            <tr><td>ຊື່ຮ້ານ</td><td><span class="ed" data-p="shop.name"></span></td></tr>
+            <tr><td>ຄຳອະທິບາຍ</td><td><span class="ed" data-p="shop.tagline"></span></td></tr>
+            <tr><td>ຜູ້ຮັບຜິດຊອບ</td><td><span class="ed" data-p="shop.owner"></span></td></tr>
+            <tr><td>ເບີໂທ</td><td><span class="ed" data-p="shop.phone"></span></td></tr>
+            <tr><td>ເລກບັນຊີ</td><td><span class="ed" data-p="shop.acct"></span></td></tr>
+            <tr><td>ໄລຍະລາຍງານ</td><td><span class="ed" data-p="period"></span></td></tr>
+            <tr><td>ບັນທຶກຂໍ້ມູນລ່າສຸດ</td><td><span class="ed" data-p="updated"></span></td></tr>
+          </tbody>
+        </table></div>
+      </div>
+      <div class="card">
+        <h2>ຊັບສິນອື່ນ ແລະ ເງິນສົດນອກບັນຊີ</h2>
+        <div class="hint">ລາຍການທີ່ບໍ່ແມ່ນເງິນໃນບັນຊີ ແຕ່ນັບເປັນຊັບສິນຂອງຮ້ານ</div>
+        <div class="scroll"><table id="oth-tbl"></table></div>
+        <button class="sm editonly addrow" data-add="otherAssets">+ ເພີ່ມຊັບສິນ</button>
+      </div>
+    </div>
+  </section>
+</div>
+
+<footer class="foot">
+  <div>ຄິດໄລ່ຈາກໄຟລ໌ nn-finance-data.json ດ້ວຍສູດດຽວກັບລະບົບ NN Finance</div>
+  <div>ບັນທຶກຂໍ້ມູນລ່າສຸດ <span class="ed" data-p="updated">3/9/2026 22:09</span></div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script id="doc-data" type="application/json">
+{
+ "shop": {"name":"ຮ້ານ ເອັນແອນເອັນ","tagline":"ບົດລາຍງານການເງິນ ແລະ ຜົນປະກອບການ","owner":"ນານີ ໄຊຍະແສນ","phone":"98245194","acct":"1601 2000 **** 8001"},
+ "period": "ໄລຍະ 6 ສິງຫາ – 3 ກັນຍາ 2026",
+ "updated": "3/9/2026 22:09",
+ "carryRev": 19067000,
+ "carryCogs": 11486000,
+ "openingCash": 3967181,
+ "thbCash": 1748640,
+ "thbNote": "3,643 ບາດ @ 480 ກີບ · ຍັງບໍ່ໄດ້ເຂົ້າບັນຊີ",
+ "otherAR": 191860,
+ "otherARNote": "ຮ້ານ GOOD DAY · ຄ້າງ 400 ບາດ (ນອກໃບບິນ)",
+ "reserveTarget": 10000000,
+ "units": [
+  {"name":"Pre-order & Trading","note":"","rev":19966500,"cogs":9632500},
+  {"name":"ອື່ນໆ (ຂາຍນອກໃບບິນ)","note":"ຮ້ານ GOOD DAY · ຍັງບໍ່ໄດ້ແຍກຕົ້ນທຶນ","rev":8279205,"cogs":0},
+  {"name":"FMCG (Happy Bun)","note":"","rev":4905500,"cogs":3554000},
+  {"name":"TOPING MAMA","note":"","rev":1026500,"cogs":1426000},
+  {"name":"F&B (ເບເກີ/ນ້ຳ)","note":"","rev":914500,"cogs":585000}
+ ],
+ "opex": [
+  {"label":"ຄ່າຈ້າງ (ລວມນ້ຳໃຊ້), ຄ່ານ້ຳ, ຄ່າໄຟ","carry":1688000,"new":0},
+  {"label":"ຄ່າຂົນສົ່ງ ແລະ ຄ່າໃຊ້ຈ່າຍທົ່ວໄປ","carry":0,"new":852000}
+ ],
+ "flows": [
+  {"label":"ຮັບຊຳລະ 14/8/2026","note":"ໃບບິນ N:0037 ແລະ ການຂາຍນອກໃບບິນ","amount":15098705},
+  {"label":"ຮັບຊຳລະ 3/9/2026","note":"ໃບບິນ N:0038–N:0044 ຄົບ 7 ໃບ","amount":7305000},
+  {"label":"ຈ່າຍຕົ້ນທຶນ ແລະ ຄ່າໃຊ້ຈ່າຍ","note":"ຕົ້ນທຶນ 3,711,500 · ດຳເນີນງານ 852,000","amount":-4563500},
+  {"label":"ປັບຍອດຕາມບັນຊີຈິງ 14/8/2026","note":"ອະທິບາຍໄດ້ແລ້ວ 8,279,205 · ຍັງບໍ່ຮູ້ສາເຫດ 3,515,795","amount":-11795000}
+ ],
+ "ar": [
+  {"no":"N:0036","cust":"ຮ້ານ GOOD DAY","due":"21/8/2026","total":5760000,"bal":4760000,"status":"od","stext":"ເກີນກຳນົດ 15 ວັນ"},
+  {"no":"N:0046","cust":"GO+MART 1","due":"18/9/2026","total":273000,"bal":273000,"status":"op","stext":"ຍັງບໍ່ຄົບກຳນົດ"},
+  {"no":"N:0045","cust":"GO+MART 1","due":"18/9/2026","total":168000,"bal":168000,"status":"op","stext":"ຍັງບໍ່ຄົບກຳນົດ"},
+  {"no":"N:0037–N:0044","cust":"GOOD DAY · ວາຣີໂກ້ພລັສ · GO+MART","due":"—","total":16065000,"bal":0,"status":"paid","stext":"ຊຳລະຄົບ 8 ໃບ"}
+ ],
+ "otherAssets": [
+  {"label":"ອຸປະກອນ ແລະ ເຄື່ອງມື","note":"ກ່ອງໃສ່ໝາກໄມ້, ອຸປະກອນເຮັດຄົວ, ໝໍ້ໂອເດ້ງ, ແພັກເກັດຈິ້ງ (15/8/2026)","amount":7000000}
+ ],
+ "shareholders": [
+  {"name":"ນຸ່ນ","pct":47.5},
+  {"name":"ນານີ່","pct":47.5},
+  {"name":"ບູ້ສະໄໝ","pct":5}
+ ],
+ "notes": [
+  {"level":"crit","tag":"ດ່ວນ","title":"ລາຍການປັບຍອດ 11,795,000 ກີບ ຍັງອະທິບາຍບໍ່ຄົບ 3,515,795 ກີບ","body":"ວັນທີ 14/8/2026 ປັບຍອດລົງໃຫ້ກົງກັບບັນຊີຈິງ ແຕ່ແຍກລາຍລະອຽດອອກມາໄດ້ພຽງ 8,279,205 ກີບ. ສ່ວນທີ່ເຫຼືອຄວນຫາເອກະສານມາແຍກເປັນຕົ້ນທຶນ ຫຼື ຄ່າໃຊ້ຈ່າຍ ບໍ່ດັ່ງນັ້ນກຳໄລທີ່ເຫັນຈະສູງກວ່າຄວາມເປັນຈິງ"},
+  {"level":"crit","tag":"ດ່ວນ","title":"ໃບບິນ N:0036 ເກີນກຳນົດແລ້ວ 15 ວັນ","body":"ຮ້ານ GOOD DAY ຄ້າງ 4,760,000 ກີບ (ຈ່າຍລ່ວງໜ້າແລ້ວ 1,000,000 ຈາກ 5,760,000) ຄົບກຳນົດແຕ່ 21/8/2026 — ຄິດເປັນ 88% ຂອງລູກໜີ້ທັງໝົດ ແລະ ຍັງມີ 400 ບາດ ຄ້າງຈາກການຂາຍນອກໃບບິນອີກ"},
+  {"level":"warn","tag":"ຂາດທຶນ","title":"TOPING MAMA ຂາຍຕ່ຳກວ່າຕົ້ນທຶນ 399,500 ກີບ","body":"ຕົ້ນທຶນວັດຖຸດິບ 1,426,000 ກີບ ແຕ່ອອກໃບບິນໄດ້ພຽງ 1,026,500 ກີບ. ອາດເປັນຍ້ອນວັດຖຸດິບຍັງເຫຼືອສະຕ໊ອກ (ຄວນບັນທຶກເປັນຊັບສິນ) ຫຼື ຕັ້ງລາຄາຂາຍຕ່ຳເກີນໄປ — ຄວນທົບທວນລາຄາກ່ອນຮັບອໍເດີຮອບໜ້າ"},
+  {"level":"warn","tag":"ລະວັງ","title":"ຖ້າປັນຜົນເຕັມຈຳນວນ ເງິນໝູນວຽນຈະເຫຼືອໜ້ອຍ","body":"ກຳໄລເປັນຕົວເລກທາງບັນຊີ ແຕ່ຫຼາຍລ້ານກີບຍັງຢູ່ໃນມືລູກຄ້າ. ຄວນເກັບໜີ້ N:0036 ໃຫ້ໄດ້ກ່ອນ ຫຼື ປັນຜົນບາງສ່ວນ ເພື່ອໃຫ້ມີເງິນໝູນວຽນສຳລັບຮັບອໍເດີຕໍ່"},
+  {"level":"info","tag":"ດີ","title":"ຮອບການເກັບເງິນຈາກ GO+MART ດີຫຼາຍ","body":"ວັນທີ 3/9/2026 ຮັບຊຳລະ 7 ໃບບິນພ້ອມກັນ 7,305,000 ກີບ ຄົບທຸກໃບ ລວມທັງໃບທີ່ຄົບກຳນົດ 2–4/9. ລູກຄ້າກຸ່ມນີ້ຈ່າຍຕົງເວລາ ເໝາະທີ່ຈະຂະຫຍາຍປະລິມານສັ່ງ"},
+  {"level":"info","tag":"ຄວນເຮັດ","title":"ເງິນສົດ 1,748,640 ກີບ ຍັງບໍ່ໄດ້ເຂົ້າບັນຊີ","body":"ຮັບເປັນເງິນບາດ 3,643 ບາດ ໃນວັນທີ 14/8/2026. ຄວນຝາກເຂົ້າບັນຊີ LDB ເພື່ອໃຫ້ຍອດໃນລະບົບກົງກັບບັນຊີທະນາຄານ ແລະ ງ່າຍຕໍ່ການກວດສອບ"}
+ ]
+}
+</script>
+
+<script>
+/* ຈັບໂຄງໜ້າເວັບຕົ້ນສະບັບ (ກ່ອນ render) ໄວ້ ເພື່ອໃຊ້ສ້າງໄຟລ໌ສະບັບໃໝ່ຕອນບັນທຶກ */
+const SHELL = document.documentElement.outerHTML;
+
+const $ = id => document.getElementById(id);
+const DATA = JSON.parse($("doc-data").textContent);
+let EDIT = false;
+
+/* ---------- helpers ---------- */
+const n = v => { const x = parseFloat(String(v).replace(/[^0-9.\-]/g, "")); return isFinite(x) ? x : 0; };
+const fmt = v => {
+  const x = Math.round(n(v) * 100) / 100;
+  return x.toLocaleString("en-US", { maximumFractionDigits: 2 }).replace(/^-/, "\u2212");
+};
+const pctTxt = (a, b) => b ? (a / b * 100).toFixed(1) + "%" : "—";
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+/* ຊ່ອງແກ້ໄຂໄດ້: t=n ຄືຕົວເລກ, t=t ຄືຂໍ້ຄວາມ */
+const ed = (path, val, t) => '<span class="ed" data-p="' + path + '" data-t="' + (t || "t") + '">'
+  + (t === "n" ? fmt(val) : esc(val)) + "</span>";
+
+function getPath(p) { return p.split(".").reduce((o, k) => o == null ? o : o[k], DATA); }
+function setPath(p, v) {
+  const ks = p.split("."), last = ks.pop();
+  const tgt = ks.reduce((o, k) => o[k], DATA);
+  tgt[last] = v;
+}
+
+/* ---------- ການຄິດໄລ່ທັງໝົດ ---------- */
+function calc() {
+  const rev = DATA.units.reduce((s, u) => s + n(u.rev), 0);
+  const cogs = DATA.units.reduce((s, u) => s + n(u.cogs), 0);
+  const opex = DATA.opex.reduce((s, o) => s + n(o.carry) + n(o.new), 0);
+  const gp = rev - cogs, net = gp - opex;
+  const cash = n(DATA.openingCash) + DATA.flows.reduce((s, f) => s + n(f.amount), 0);
+  const ar = DATA.ar.reduce((s, r) => s + n(r.bal), 0);
+  const othA = DATA.otherAssets.reduce((s, a) => s + n(a.amount), 0);
+  const assets = cash + n(DATA.thbCash) + ar + n(DATA.otherAR) + othA;
+  const reserve = Math.min(Math.max(net, 0), n(DATA.reserveTarget));
+  const dist = Math.max(net - n(DATA.reserveTarget), 0);
+  return { rev, cogs, opex, gp, net, cash, ar, othA, assets, reserve, dist };
+}
+
+/* ---------- KPI ---------- */
+function renderKpis(c) {
+  const unexplained = DATA.flows.reduce((s, f) => s + (n(f.amount) < 0 && /ປັບຍອດ/.test(f.label) ? n(f.amount) : 0), 0);
+  const od = DATA.ar.filter(r => r.status === "od").reduce((s, r) => s + n(r.bal), 0);
+  const k = [
+    ["ເງິນສົດໃນມື (LDB)", fmt(c.cash), "ຍອດຍົກມາ " + fmt(DATA.openingCash) + " + ຮັບຈິງ − ຈ່າຍຈິງ", true],
+    ["ລູກໜີ້ຄ້າງຮັບ (AR)", fmt(c.ar), DATA.ar.filter(r => n(r.bal) > 0).length + " ໃບບິນຍັງບໍ່ຊຳລະ · ເກີນກຳນົດ " + fmt(od), false],
+    ["ກຳໄລສຸດທິ", fmt(c.net), "Net margin " + pctTxt(c.net, c.rev) + " ຂອງລາຍຮັບ " + fmt(c.rev), true],
+    ["ຊັບສິນລວມ", fmt(c.assets), "ເງິນສົດ + ລູກໜີ້ + ຊັບສິນອື່ນ", false],
+    ["ເງິນສົດເປັນເງິນບາດ", fmt(DATA.thbCash), esc(DATA.thbNote), false],
+    ["ລູກໜີ້ອື່ນ (ນອກໃບບິນ)", fmt(DATA.otherAR), esc(DATA.otherARNote), false],
+    ["ແບ່ງປັນຜົນໄດ້", fmt(c.dist), "ຫຼັງກັນທຶນສຳຮອງ " + fmt(DATA.reserveTarget), false]
+  ];
+  $("kpis").innerHTML = k.map(x =>
+    '<div class="kpi' + (x[3] ? " hi" : "") + '"><div class="k">' + x[0] + '</div>'
+    + '<div class="v">' + x[1] + '</div><div class="n">' + x[2] + '</div></div>'
+  ).join("");
+  if (unexplained) {
+    $("kpis").firstChild.querySelector(".n").innerHTML +=
+      '<br><span class="neg">ລວມການປັບຍອດ ' + fmt(unexplained) + '</span>';
+  }
+}
+
+/* ---------- ໂຄງສ້າງຊັບສິນ ---------- */
+function renderAssetViz(c) {
+  const parts = [
+    ["ເງິນສົດໃນບັນຊີ LDB", c.cash, "var(--s1)"],
+    ["ລູກໜີ້ຈາກໃບບິນ", c.ar, "var(--s2)"],
+    ["ຊັບສິນອື່ນ", c.othA, "var(--s3)"],
+    ["ເງິນສົດເປັນເງິນບາດ", n(DATA.thbCash), "var(--s4)"],
+    ["ລູກໜີ້ອື່ນ", n(DATA.otherAR), "var(--s5)"]
+  ].filter(p => p[1] > 0);
+  const tot = parts.reduce((s, p) => s + p[1], 0) || 1;
+  $("asset-hint").innerHTML = "ຈາກຊັບສິນລວມ " + fmt(c.assets) + " ກີບ — ເປັນເງິນສົດຈິງພຽງ "
+    + pctTxt(c.cash, tot) + " ທີ່ເຫຼືອຍັງເປັນໜີ້ ຫຼື ຊັບສິນທີ່ຕ້ອງໃຊ້ເວລາ";
+  $("asset-viz").innerHTML =
+    '<div class="stackbar">' + parts.map(p =>
+      '<span style="flex:' + p[1] + ';background:' + p[2] + '" title="' + esc(p[0]) + '"></span>').join("") + "</div>"
+    + '<div class="legend">' + parts.map(p =>
+      '<div class="li"><i class="chip" style="background:' + p[2] + '"></i><span>' + p[0]
+      + '</span><span class="amt">' + fmt(p[1]) + '</span><span class="sh">' + pctTxt(p[1], tot) + "</span></div>").join("") + "</div>";
+}
+
+/* ---------- ໜີ້ແຍກຕາມລູກຄ້າ ---------- */
+function renderArViz() {
+  const by = {};
+  DATA.ar.forEach(r => {
+    if (n(r.bal) <= 0) return;
+    const k = r.cust || "—";
+    by[k] = by[k] || { amt: 0, cnt: 0 };
+    by[k].amt += n(r.bal); by[k].cnt++;
+  });
+  if (n(DATA.otherAR) > 0) {
+    const k = (DATA.otherARNote || "ນອກໃບບິນ").split("·")[0].trim() || "ນອກໃບບິນ";
+    by[k] = by[k] || { amt: 0, cnt: 0 };
+    by[k].amt += n(DATA.otherAR); by[k].off = true;
+  }
+  const rows = Object.entries(by).sort((a, b) => b[1].amt - a[1].amt);
+  const max = rows.length ? rows[0][1].amt : 1;
+  const html = rows.length
+    ? '<div class="hbars">' + rows.map(([nm, v]) =>
+      '<div class="nm">' + esc(nm) + "<small>"
+      + (v.cnt ? v.cnt + " ໃບບິນ" + (v.off ? " + ນອກໃບບິນ" : "") : "ນອກໃບບິນ") + "</small></div>"
+      + '<div><div class="fill' + (v.cnt ? "" : " c2") + '" style="width:' + (v.amt / max * 100) + '%"></div></div>'
+      + '<div class="val">' + fmt(v.amt) + "</div>").join("") + "</div>"
+    : '<div class="muted">ບໍ່ມີໜີ້ຄ້າງຊຳລະ</div>';
+  ["ar-viz", "ar-viz2"].forEach(id => { const el = $(id); if (el) el.innerHTML = html; });
+}
+
+/* ---------- ສະຖານະການເກັບໜີ້ ---------- */
+function renderAging() {
+  const g = { od: { amt: 0, cnt: 0 }, op: { amt: 0, cnt: 0 }, paid: { amt: 0, cnt: 0 } };
+  DATA.ar.forEach(r => {
+    const k = g[r.status] ? r.status : "op";
+    g[k].amt += n(r.bal); g[k].cnt++;
+  });
+  const rows = [
+    ["ເກີນກຳນົດແລ້ວ", "od", g.od.amt, g.od.cnt + " ໃບບິນ"],
+    ["ຍັງບໍ່ຄົບກຳນົດ", "op", g.op.amt, g.op.cnt + " ໃບບິນ"],
+    ["ນອກໃບບິນ", "part", n(DATA.otherAR), (DATA.otherARNote || "").split("·")[0].trim()],
+    ["ຊຳລະຄົບແລ້ວ", "paid", 0, g.paid.cnt + " ໃບບິນ"]
+  ];
+  const tot = g.od.amt + g.op.amt + n(DATA.otherAR);
+  $("aging-tbl").innerHTML =
+    '<thead><tr><th>ສະຖານະ</th><th class="num">ຍອດຄ້າງ</th><th class="num">ສັດສ່ວນ</th></tr></thead><tbody>'
+    + rows.map(r => '<tr><td><span class="pill ' + r[1] + '">' + r[0] + "</span><small>" + esc(r[3]) + "</small></td>"
+      + '<td class="num' + (r[1] === "od" && r[2] ? " neg" : "") + '">' + fmt(r[2]) + "</td>"
+      + '<td class="num muted">' + (r[2] ? pctTxt(r[2], tot) : "—") + "</td></tr>").join("")
+    + '</tbody><tfoot><tr><td>ລວມຄ້າງຮັບ</td><td class="num">' + fmt(tot) + "</td><td></td></tr></tfoot>";
+}
+
+/* ---------- Business units ---------- */
+function renderUnits(c) {
+  const rows = DATA.units.map((u, i) => {
+    const gp = n(u.rev) - n(u.cogs);
+    return "<tr><td>" + ed("units." + i + ".name", u.name) + (u.note ? "<small>" + ed("units." + i + ".note", u.note) + "</small>" : "")
+      + '</td><td class="num">' + ed("units." + i + ".rev", u.rev, "n")
+      + '</td><td class="num">' + ed("units." + i + ".cogs", u.cogs, "n")
+      + '</td><td class="num ' + (gp < 0 ? "neg" : "pos") + '">' + fmt(gp)
+      + '</td><td class="num ' + (gp < 0 ? "neg" : "") + '">' + pctTxt(gp, n(u.rev))
+      + '</td><td class="num"><button class="ghost sm editonly" data-del="units.' + i + '" title="ລຶບ">✕</button></td></tr>';
+  }).join("");
+  $("units-tbl").innerHTML =
+    '<thead><tr><th>ສາຍທຸລະກິດ</th><th class="num">ລາຍຮັບ</th><th class="num">ຕົ້ນທຶນ (COGS)</th>'
+    + '<th class="num">ກຳໄລຂັ້ນຕົ້ນ</th><th class="num">Margin</th><th></th></tr></thead>'
+    + "<tbody>" + rows + "</tbody>"
+    + '<tfoot><tr><td>ລວມ</td><td class="num">' + fmt(c.rev) + '</td><td class="num">' + fmt(c.cogs)
+    + '</td><td class="num">' + fmt(c.gp) + '</td><td class="num">' + pctTxt(c.gp, c.rev) + "</td><td></td></tr></tfoot>";
+
+  const max = Math.max(...DATA.units.map(u => Math.max(n(u.rev), n(u.cogs))), 1);
+  $("units-bars").innerHTML =
+    '<div class="legend" style="margin-bottom:10px">'
+    + '<div class="li"><i class="chip" style="background:var(--s1)"></i><span>ລາຍຮັບ</span></div>'
+    + '<div class="li"><i class="chip" style="background:var(--s2)"></i><span>ຕົ້ນທຶນ</span></div></div>'
+    + '<div class="hbars">' + DATA.units.map(u =>
+      '<div class="nm">' + esc(u.name) + "</div>"
+      + '<div><div class="fill" style="width:' + (n(u.rev) / max * 100) + '%;margin-bottom:3px"></div>'
+      + '<div class="fill c2" style="width:' + (n(u.cogs) / max * 100) + '%"></div></div>'
+      + '<div class="val">' + fmt(u.rev) + '<br><span class="muted" style="font-weight:400">' + fmt(u.cogs) + "</span></div>"
+    ).join("") + "</div>";
+}
+
+/* ---------- P&L ---------- */
+function renderPl(c) {
+  const carryOpex = DATA.opex.reduce((s, o) => s + n(o.carry), 0);
+  const newOpex = DATA.opex.reduce((s, o) => s + n(o.new), 0);
+  const cRev = n(DATA.carryRev), cCogs = n(DATA.carryCogs);
+  const rows = [];
+  rows.push('<tr><td>ລາຍຮັບຈາກການຂາຍ</td><td class="num">' + ed("carryRev", cRev, "n")
+    + '</td><td class="num">' + fmt(c.rev - cRev) + '</td><td class="num">' + fmt(c.rev) + "</td><td></td></tr>");
+  rows.push('<tr><td>ຫັກ ຕົ້ນທຶນສິນຄ້າ / ວັດຖຸດິບ</td><td class="num neg">−' + ed("carryCogs", cCogs, "n")
+    + '</td><td class="num neg">−' + fmt(c.cogs - cCogs) + '</td><td class="num neg">−' + fmt(c.cogs) + "</td><td></td></tr>");
+  rows.push('<tr class="sum"><td>ກຳໄລຂັ້ນຕົ້ນ · ' + pctTxt(c.gp, c.rev) + '</td><td class="num">' + fmt(cRev - cCogs)
+    + '</td><td class="num">' + fmt((c.rev - cRev) - (c.cogs - cCogs)) + '</td><td class="num">' + fmt(c.gp) + "</td><td></td></tr>");
+  DATA.opex.forEach((o, i) => {
+    const sign = v => n(v) ? "\u2212" : "";
+    rows.push("<tr><td>ຫັກ " + ed("opex." + i + ".label", o.label) + '</td><td class="num neg">' + sign(o.carry)
+      + ed("opex." + i + ".carry", o.carry, "n") + '</td><td class="num neg">' + sign(o.new) + ed("opex." + i + ".new", o.new, "n")
+      + '</td><td class="num neg">' + sign(n(o.carry) + n(o.new)) + fmt(n(o.carry) + n(o.new))
+      + '</td><td><button class="ghost sm editonly" data-del="opex.' + i + '" title="ລຶບ">✕</button></td></tr>');
+  });
+  $("pl-tbl").innerHTML =
+    '<thead><tr><th>ລາຍການ</th><th class="num">ຍອດຍົກມາ</th><th class="num">ເຄື່ອນໄຫວໃໝ່</th><th class="num">ລວມ</th><th></th></tr></thead>'
+    + "<tbody>" + rows.join("") + "</tbody>"
+    + '<tfoot><tr><td>ກຳໄລສຸດທິ</td><td class="num">' + fmt(cRev - cCogs - carryOpex)
+    + '</td><td class="num">' + fmt((c.rev - cRev) - (c.cogs - cCogs) - newOpex)
+    + '</td><td class="num">' + fmt(c.net) + "</td><td></td></tr></tfoot>";
+}
+
+/* ---------- ເງິນສົດ ---------- */
+function renderCash(c) {
+  const st = [];
+  st.push('<div class="st"><div class="t">ເງິນສົດຕັ້ງຕົ້ນ<small>ວັນເປີດລະບົບ</small></div>'
+    + '<div class="n">' + ed("openingCash", DATA.openingCash, "n") + "</div><div></div></div>");
+  DATA.flows.forEach((f, i) => {
+    const neg = n(f.amount) < 0;
+    st.push('<div class="st"><div class="t">' + ed("flows." + i + ".label", f.label)
+      + "<small>" + ed("flows." + i + ".note", f.note) + "</small></div>"
+      + '<div class="n ' + (neg ? "neg" : "pos") + '">' + ed("flows." + i + ".amount", f.amount, "n")
+      + '</div><div><button class="ghost sm editonly" data-del="flows.' + i + '" title="ລຶບ">✕</button></div></div>');
+  });
+  st.push('<div class="st end"><div class="t">ເງິນສົດຄົງເຫຼືອໃນບັນຊີ</div><div class="n">' + fmt(c.cash) + "</div><div></div></div>");
+  $("cash-steps").innerHTML = st.join("");
+}
+
+/* ---------- AR ---------- */
+function renderAr(c) {
+  const totInv = DATA.ar.reduce((s, r) => s + n(r.total), 0);
+  const paid = totInv - c.ar;
+  $("ar-hint").innerHTML = "ມູນຄ່າໃບບິນລວມ " + fmt(totInv) + " ກີບ · ຮັບຊຳລະແລ້ວ " + fmt(paid)
+    + " ກີບ (" + pctTxt(paid, totInv) + ") · ຍັງຄ້າງ " + fmt(c.ar) + " ກີບ";
+  $("ar-tbl").innerHTML =
+    '<thead><tr><th>ໃບບິນ</th><th>ລູກຄ້າ</th><th>ຄົບກຳນົດ</th><th class="num">ມູນຄ່າ</th>'
+    + '<th class="num">ຄ້າງຮັບ</th><th>ສະຖານະ</th><th></th></tr></thead><tbody>'
+    + DATA.ar.map((r, i) =>
+      "<tr><td>" + ed("ar." + i + ".no", r.no) + "</td><td>" + ed("ar." + i + ".cust", r.cust)
+      + "</td><td>" + ed("ar." + i + ".due", r.due) + '</td><td class="num">' + ed("ar." + i + ".total", r.total, "n")
+      + '</td><td class="num' + (n(r.bal) > 0 ? " neg" : "") + '">' + ed("ar." + i + ".bal", r.bal, "n")
+      + '</td><td><span class="pill ' + esc(r.status) + '">' + ed("ar." + i + ".stext", r.stext) + "</span></td>"
+      + '<td><button class="ghost sm editonly" data-del="ar.' + i + '" title="ລຶບ">✕</button></td></tr>').join("")
+    + "</tbody><tfoot><tr><td colspan=\"4\">ລວມຄ້າງຮັບຈາກໃບບິນ</td><td class=\"num\">" + fmt(c.ar) + "</td><td colspan=\"2\"></td></tr></tfoot>";
+}
+
+/* ---------- ທຶນສຳຮອງ + ຜູ້ຖືຫຸ້ນ ---------- */
+function renderDiv(c) {
+  $("div-hint").innerHTML = "ກຳໄລສະສົມ " + fmt(c.net) + " ກີບ · ກັນທຶນສຳຮອງກ່ອນ ແລ້ວຈຶ່ງແບ່ງສ່ວນທີ່ເຫຼືອຕາມສັດສ່ວນຫຸ້ນ";
+  const rows = DATA.shareholders.map((s, i) =>
+    "<tr><td>" + ed("shareholders." + i + ".name", s.name) + '</td><td class="num">'
+    + ed("shareholders." + i + ".pct", s.pct, "n") + '%</td><td class="num">'
+    + fmt(Math.round(c.dist * n(s.pct) / 100)) + "</td></tr>").join("");
+  const totPct = DATA.shareholders.reduce((s, x) => s + n(x.pct), 0);
+  $("div-tbl").innerHTML =
+    "<tbody>"
+    + '<tr><td>ກຳໄລສະສົມ</td><td class="num" colspan="2">' + fmt(c.net) + "</td></tr>"
+    + '<tr><td>ຫັກ ທຶນສຳຮອງ</td><td class="num neg" colspan="2">−' + ed("reserveTarget", DATA.reserveTarget, "n") + "</td></tr>"
+    + '<tr class="sum"><td>ແບ່ງປັນຜົນໄດ້</td><td class="num" colspan="2">' + fmt(c.dist) + "</td></tr>"
+    + "</tbody>"
+    + '<thead><tr><th>ຜູ້ຖືຫຸ້ນ</th><th class="num">ສັດສ່ວນ</th><th class="num">ຈຳນວນ</th></tr></thead>'
+    + "<tbody>" + rows + "</tbody>"
+    + '<tfoot><tr><td>ລວມ</td><td class="num' + (Math.abs(totPct - 100) > 0.01 ? " neg" : "") + '">' + totPct
+    + '%</td><td class="num">' + fmt(c.dist) + "</td></tr></tfoot>";
+}
+
+/* ---------- ຊັບສິນອື່ນ ---------- */
+function renderOther(c) {
+  $("oth-tbl").innerHTML =
+    '<thead><tr><th>ລາຍການ</th><th class="num">ຈຳນວນ</th><th></th></tr></thead><tbody>'
+    + '<tr><td>ເງິນສົດເປັນເງິນບາດ<small>' + ed("thbNote", DATA.thbNote) + '</small></td><td class="num">'
+    + ed("thbCash", DATA.thbCash, "n") + "</td><td></td></tr>"
+    + '<tr><td>ລູກໜີ້ນອກໃບບິນ<small>' + ed("otherARNote", DATA.otherARNote) + '</small></td><td class="num">'
+    + ed("otherAR", DATA.otherAR, "n") + "</td><td></td></tr>"
+    + DATA.otherAssets.map((a, i) =>
+      "<tr><td>" + ed("otherAssets." + i + ".label", a.label) + "<small>" + ed("otherAssets." + i + ".note", a.note)
+      + '</small></td><td class="num">' + ed("otherAssets." + i + ".amount", a.amount, "n")
+      + '</td><td><button class="ghost sm editonly" data-del="otherAssets.' + i + '" title="ລຶບ">✕</button></td></tr>').join("")
+    + '</tbody><tfoot><tr><td>ລວມ (ບໍ່ລວມເງິນໃນບັນຊີ)</td><td class="num">'
+    + fmt(n(DATA.thbCash) + n(DATA.otherAR) + c.othA) + "</td><td></td></tr></tfoot>";
+}
+
+/* ---------- ຂໍ້ສັງເກດ ---------- */
+function renderNotes() {
+  $("notes").innerHTML = DATA.notes.map((x, i) =>
+    '<div class="note ' + esc(x.level) + '"><span class="tag">' + ed("notes." + i + ".tag", x.tag) + "</span>"
+    + "<div><h3>" + ed("notes." + i + ".title", x.title) + "</h3><p>" + ed("notes." + i + ".body", x.body) + "</p></div>"
+    + '<div><button class="ghost sm editonly" data-del="notes.' + i + '" title="ລຶບ">✕</button></div></div>').join("");
+}
+
+/* ---------- render ທັງໝົດ ---------- */
+function render() {
+  const c = calc();
+  renderKpis(c); renderAssetViz(c); renderArViz(); renderAging(); renderUnits(c);
+  renderPl(c); renderCash(c); renderAr(c); renderDiv(c); renderOther(c); renderNotes();
+  /* ຊ່ອງໃນຫົວເວັບ ແລະ footer */
+  document.querySelectorAll("header [data-p], footer [data-p], #set-info [data-p]").forEach(el => {
+    el.textContent = getPath(el.dataset.p) ?? "";
+  });
+  document.querySelectorAll(".ed").forEach(el => {
+    el.contentEditable = EDIT ? "true" : "false";
+    el.spellcheck = false;
+  });
+}
+
+/* ---------- ແກ້ໄຂ ---------- */
+document.addEventListener("focusout", e => {
+  const el = e.target.closest && e.target.closest(".ed");
+  if (!el || !EDIT) return;
+  const p = el.dataset.p, t = el.dataset.t || "t";
+  const raw = el.textContent.trim();
+  const cur = getPath(p);
+  const val = t === "n" ? n(raw) : raw;
+  if (String(cur) === String(val)) return;
+  setPath(p, val);
+  markDirty();
+  render();
+});
+
+document.addEventListener("click", e => {
+  const del = e.target.closest("[data-del]");
+  if (del) {
+    const [key, idx] = del.dataset.del.split(".");
+    DATA[key].splice(+idx, 1);
+    markDirty(); render(); return;
+  }
+  const add = e.target.closest("[data-add]");
+  if (add) {
+    const key = add.dataset.add;
+    const blanks = {
+      units: { name: "ສາຍທຸລະກິດໃໝ່", note: "", rev: 0, cogs: 0 },
+      opex: { label: "ຄ່າໃຊ້ຈ່າຍໃໝ່", carry: 0, new: 0 },
+      flows: { label: "ລາຍການໃໝ່", note: "", amount: 0 },
+      ar: { no: "N:0000", cust: "ລູກຄ້າໃໝ່", due: "—", total: 0, bal: 0, status: "op", stext: "ຍັງບໍ່ຄົບກຳນົດ" },
+      otherAssets: { label: "ຊັບສິນໃໝ່", note: "", amount: 0 },
+      notes: { level: "info", tag: "ບັນທຶກ", title: "ຫົວຂໍ້ໃໝ່", body: "ລາຍລະອຽດ" }
+    };
+    DATA[key].push(JSON.parse(JSON.stringify(blanks[key])));
+    markDirty(); render();
+  }
+});
+
+/* ---------- ສະຖານະການບັນທຶກ ---------- */
+let dirty = false;
+function setPill(txt, cls) { const p = $("pill"); p.textContent = txt; p.className = "savepill" + (cls ? " " + cls : ""); }
+function markDirty() { dirty = true; setPill("ຍັງບໍ່ໄດ້ບັນທຶກ", "saving"); }
+function toast(t) { const el = $("toast"); el.textContent = t; el.classList.add("on"); setTimeout(() => el.classList.remove("on"), 2600); }
+
+/* ---------- ສະຫຼັບແທັບ ---------- */
+function go(v) {
+  document.querySelectorAll("section[data-view]").forEach(sec => { sec.hidden = sec.dataset.view !== v; });
+  document.querySelectorAll("#tabs button").forEach(b => b.classList.toggle("on", b.dataset.v === v));
+  try { localStorage.setItem("nn-tab", v); } catch (e) { }
+}
+$("tabs").addEventListener("click", e => {
+  const b = e.target.closest("button");
+  if (b) go(b.dataset.v);
+});
+
+$("btn-edit").addEventListener("click", () => {
+  EDIT = !EDIT;
+  document.body.classList.toggle("editing", EDIT);
+  $("btn-edit").textContent = EDIT ? "ອອກຈາກໂໝດແກ້ໄຂ" : "ແກ້ໄຂ";
+  $("btn-edit").classList.toggle("primary", EDIT);
+  render();
+});
+
+/* ---------- ສ້າງໄຟລ໌ສະບັບໃໝ່ຈາກໂຄງຕົ້ນສະບັບ + ຂໍ້ມູນປັດຈຸບັນ ---------- */
+function buildDoc() {
+  const json = JSON.stringify(DATA, null, 1).replace(/</g, "\\u003c");
+  const body = SHELL
+    .replace(/^<html[^>]*>/i, '<html lang="lo">')
+    .replace(/(<script id="doc-data" type="application\/json">)[\s\S]*?(<\/script>)/i,
+      (m, open, close) => open + "\n" + json + "\n" + close);
+  return "<!doctype html>\n" + body;
+}
+
+/* ເມື່ອໜ້ານີ້ຖືກ host ຢູ່ບ່ອນອື່ນ (ເຊັ່ນ GitHub Pages) ຈະບໍ່ມີ claude runtime — ບັນທຶກເປັນໄຟລ໌ແທນ */
+const hasRuntime = () => typeof claude !== "undefined" && claude && typeof claude.use === "function";
+function saveAsFile(html) {
+  const url = URL.createObjectURL(new Blob([html], { type: "text/html;charset=utf-8" }));
+  const a = document.createElement("a");
+  a.href = url; a.download = "index.html";
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 4000);
+}
+
+$("btn-save").addEventListener("click", async () => {
+  setPill("ກຳລັງບັນທຶກ…", "saving");
+  const artifact = hasRuntime() ? await claude.use("artifact") : null;
+  if (!artifact) {
+    saveAsFile(buildDoc()); dirty = false;
+    setPill("ບັນທຶກເປັນໄຟລ໌ແລ້ວ", "saved");
+    toast("ໄດ້ໄຟລ໌ index.html — ອັບໂຫຼດທັບໃນ GitHub ເພື່ອໃຫ້ເວັບເປັນສະບັບໃໝ່");
+    return;
+  }
+  try {
+    await artifact.publish(buildDoc());
+    dirty = false; setPill("ບັນທຶກຂຶ້ນເວັບແລ້ວ", "saved"); toast("ບັນທຶກແລ້ວ — ທຸກຄົນທີ່ເປີດລິ້ງຈະເຫັນສະບັບໃໝ່");
+  } catch (err) {
+    const code = err && err.code;
+    if (code === "conflict") { setPill("ມີສະບັບໃໝ່ກວ່າ", "error"); toast("ມີຄົນບັນທຶກກ່ອນ — ໜ້ານີ້ຈະໂຫຼດສະບັບລ່າສຸດ"); }
+    else if (code === "not_granted" || code === "not_writer") { setPill("ເບິ່ງຢ່າງດຽວ", "error"); toast("ບັນຊີນີ້ບໍ່ມີສິດແກ້ໄຂໜ້ານີ້"); }
+    else { setPill("ບັນທຶກບໍ່ສຳເລັດ", "error"); toast("ບັນທຶກບໍ່ສຳເລັດ — ລອງໃໝ່ອີກຄັ້ງ"); }
+  }
+});
+
+$("btn-dl").addEventListener("click", async () => {
+  const downloads = hasRuntime() ? await claude.use("downloads") : null;
+  if (!downloads) { saveAsFile(buildDoc()); toast("ບັນທຶກໄຟລ໌ index.html ແລ້ວ"); return; }
+  try {
+    await downloads.save({ filename: "NN-Finance-Report.html", data: buildDoc() });
+    toast("ບັນທຶກໄຟລ໌ແລ້ວ — ເອົາໄປວາງໃສ່ເວັບໂຮສໃດກໍໄດ້");
+  } catch (e) { toast("ຍົກເລີກການດາວໂຫຼດ"); }
+});
+
+/* ---------- ໂໝດມືດ / ແຈ້ງ ---------- */
+$("btn-theme").addEventListener("click", () => {
+  const cur = document.documentElement.getAttribute("data-theme");
+  const dark = cur ? cur === "dark" : matchMedia("(prefers-color-scheme:dark)").matches;
+  const next = dark ? "light" : "dark";
+  document.documentElement.setAttribute("data-theme", next);
+  try { localStorage.setItem("nn-theme", next); } catch (e) { }
+});
+try { const t = localStorage.getItem("nn-theme"); if (t) document.documentElement.setAttribute("data-theme", t); } catch (e) { }
+
+window.addEventListener("beforeunload", e => { if (dirty) { e.preventDefault(); e.returnValue = ""; } });
+
+render();
+try {
+  const t = localStorage.getItem("nn-tab");
+  if (t && document.querySelector('section[data-view="' + t + '"]')) go(t);
+} catch (e) { }
+setPill("ພ້ອມໃຊ້ງານ");
+</script>
