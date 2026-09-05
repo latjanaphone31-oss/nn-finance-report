@@ -399,6 +399,33 @@ footer.foot{max-width:1180px;margin:0 auto;padding:6px 18px 40px;font-size:12px;
   </section>
 
   <section data-view="set" hidden>
+    <div class="card lockonly" id="owner-card">
+      <h2>ຕັ້ງຄ່າສະເພາະເຈົ້າຂອງ</h2>
+      <div class="hint">ສອງຢ່າງນີ້ເກັບໄວ້ໃນເບົາເຊີເຄື່ອງນີ້ເທົ່ານັ້ນ — ບໍ່ຖືກບັນທຶກລົງໄຟລ໌ ຄົນອື່ນຈຶ່ງບໍ່ເຫັນ</div>
+      <div class="split" style="gap:24px">
+        <div class="setgrp">
+          <b>ເລກບັນຊີເຕັມ (ໃຊ້ພິມໃສ່ໃບບິນ)</b>
+          <div class="hint" style="margin:2px 0 0">ໃນໄຟລ໌ເກັບແຕ່ເລກຫຍໍ້ ເລກເຕັມຢູ່ໃນເຄື່ອງນີ້ ຈຶ່ງບໍ່ຮົ່ວອອກສາທາລະນະ</div>
+          <input class="cardin" id="acct-in" type="text" autocomplete="off" spellcheck="false">
+          <div class="act">
+            <button class="sm" id="acct-save">ບັນທຶກໄວ້ໃນເຄື່ອງ</button>
+            <button class="ghost sm" id="acct-clear">ລຶບອອກ</button>
+          </div>
+        </div>
+        <div class="setgrp">
+          <b>ກຸນແຈ GitHub (ບັນທຶກຂຶ້ນເວັບໂດຍກົງ)</b>
+          <div class="hint" style="margin:2px 0 0">ໃສ່ໄວ້ເທື່ອດຽວ — ຈາກນັ້ນກົດ <b>ບັນທຶກຂຶ້ນເວັບ</b> ຂໍ້ມູນຈະຂຶ້ນເວັບທັນທີ ຄົນອື່ນພຽງແຕ່ refresh ກໍເຫັນ</div>
+          <input class="cardin" id="gh-in" type="password" autocomplete="off" spellcheck="false">
+          <div class="act">
+            <button class="sm" id="gh-save">ບັນທຶກກຸນແຈ</button>
+            <button class="sm" id="gh-test">ທົດສອບການເຊື່ອມຕໍ່</button>
+            <button class="ghost sm" id="gh-clear">ລຶບອອກ</button>
+          </div>
+          <div class="hint" id="gh-status" style="margin-top:7px"></div>
+        </div>
+      </div>
+    </div>
+
     <div class="split">
       <div class="card" id="set-info">
         <h2>ຂໍ້ມູນຮ້ານ ແລະ ໄລຍະລາຍງານ</h2>
@@ -417,33 +444,6 @@ footer.foot{max-width:1180px;margin:0 auto;padding:6px 18px 40px;font-size:12px;
           </tbody>
         </table></div>
       </div>
-      <div class="card lockonly" id="owner-card">
-        <h2>ຕັ້ງຄ່າສະເພາະເຈົ້າຂອງ</h2>
-        <div class="hint">ສອງຢ່າງນີ້ເກັບໄວ້ໃນເບົາເຊີເຄື່ອງນີ້ເທົ່ານັ້ນ — ບໍ່ຖືກບັນທຶກລົງໄຟລ໌ ຄົນອື່ນຈຶ່ງບໍ່ເຫັນ</div>
-
-        <div class="setgrp">
-          <b>ເລກບັນຊີເຕັມ (ໃຊ້ພິມໃສ່ໃບບິນ)</b>
-          <div class="hint" style="margin:2px 0 0">ໃນໄຟລ໌ເກັບແຕ່ເລກຫຍໍ້ ເລກເຕັມຢູ່ໃນເຄື່ອງນີ້ ຈຶ່ງບໍ່ຮົ່ວອອກສາທາລະນະ</div>
-          <input class="cardin" id="acct-in" type="text" autocomplete="off" spellcheck="false">
-          <div class="act">
-            <button class="sm" id="acct-save">ບັນທຶກໄວ້ໃນເຄື່ອງ</button>
-            <button class="ghost sm" id="acct-clear">ລຶບອອກ</button>
-          </div>
-        </div>
-
-        <div class="setgrp" id="gh-grp">
-          <b>ກຸນແຈ GitHub (ບັນທຶກຂຶ້ນເວັບໂດຍກົງ)</b>
-          <div class="hint" style="margin:2px 0 0">ໃສ່ໄວ້ເທື່ອດຽວ — ຈາກນັ້ນກົດ <b>ບັນທຶກຂຶ້ນເວັບ</b> ຂໍ້ມູນຈະຂຶ້ນເວັບທັນທີ ຄົນອື່ນພຽງແຕ່ refresh ກໍເຫັນ</div>
-          <input class="cardin" id="gh-in" type="password" autocomplete="off" spellcheck="false">
-          <div class="act">
-            <button class="sm" id="gh-save">ບັນທຶກກຸນແຈ</button>
-            <button class="sm" id="gh-test">ທົດສອບການເຊື່ອມຕໍ່</button>
-            <button class="ghost sm" id="gh-clear">ລຶບອອກ</button>
-          </div>
-          <div class="hint" id="gh-status" style="margin-top:7px"></div>
-        </div>
-      </div>
-
       <div class="card">
         <h2>ຊັບສິນອື່ນ ແລະ ເງິນສົດນອກບັນຊີ</h2>
         <div class="hint">ລາຍການທີ່ບໍ່ແມ່ນເງິນໃນບັນຊີ ແຕ່ນັບເປັນຊັບສິນຂອງຮ້ານ</div>
