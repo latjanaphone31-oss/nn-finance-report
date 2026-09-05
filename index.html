@@ -206,6 +206,33 @@ body.owner .lockonly{display:inline-flex}
 .lockonly{display:none}
 body.owner .viewonly{display:none}
 
+.cardin{width:100%;font-family:inherit;font-size:14px;padding:9px 11px;margin:5px 0 2px;
+  border:1px solid var(--line);border-radius:9px;background:var(--surface);color:var(--ink)}
+.cardin:focus{outline:2px solid var(--focus);outline-offset:-1px;border-color:var(--focus-line)}
+.setgrp{margin-bottom:18px}
+.setgrp b{font-size:14px}
+
+/* ==== ກ່ອງໂຕ້ຕອບໃນໜ້າ (ໃຊ້ແທນ prompt ທີ່ຖືກບລັອກ) ==== */
+.modal{position:fixed;inset:0;background:rgba(20,14,10,.55);display:flex;align-items:flex-start;
+  justify-content:center;padding:60px 16px;z-index:120;backdrop-filter:blur(2px)}
+.modal[hidden]{display:none}
+.modal .box{background:var(--card);border:1px solid var(--line);border-radius:14px;
+  box-shadow:0 24px 60px rgba(0,0,0,.4);width:100%;max-width:400px;padding:22px 24px}
+.modal h3{font-size:17px;margin-bottom:4px}
+.modal .sub{font-size:13px;color:var(--muted);margin-bottom:16px;line-height:1.6}
+.modal input{width:100%;font-family:inherit;font-size:15px;padding:10px 12px;margin-bottom:10px;
+  border:1px solid var(--line);border-radius:9px;background:var(--surface);color:var(--ink)}
+.modal input:focus{outline:2px solid var(--focus);outline-offset:-1px;border-color:var(--focus-line)}
+.modal .err{font-size:13px;color:var(--bad);margin-bottom:10px;font-weight:600}
+.modal .acts{display:flex;justify-content:flex-end;gap:9px;margin-top:6px}
+
+/* ==== ໜ້າໃບບິນເຕັມຈໍ ==== */
+#sheet{display:none}
+body.sheeting #sheet{display:block;position:fixed;inset:0;z-index:110;background:#e9e6df;overflow:auto;padding:18px 12px 60px}
+body.sheeting .sheetbar{position:sticky;top:0;z-index:2;display:flex;gap:9px;justify-content:center;
+  padding:10px;margin:-18px -12px 16px;background:var(--card);border-bottom:1px solid var(--line);flex-wrap:wrap}
+.sheetbar .hint2{font-size:12.5px;color:var(--muted);align-self:center;max-width:420px;line-height:1.5}
+
 /* ==== ໂໝດເຊື່ອງຕົວເລກ ==== */
 .nm{transition:filter .15s ease}
 body.hidenum .nm{filter:blur(7px);user-select:none;cursor:default}
@@ -237,9 +264,9 @@ footer.foot{max-width:1180px;margin:0 auto;padding:6px 18px 40px;font-size:12px;
 
 @media print{
   header.top .tools,nav.tabs,.editonly,.hint-edit,.toast,.act,.lockmsg{display:none!important}
-  body.print-invoice header.top,body.print-invoice .wrap,body.print-invoice footer.foot{display:none!important}
-  body.print-invoice #sheet{display:block!important}
-  body.print-invoice .nm{filter:none!important}
+  body.sheeting header.top,body.sheeting .wrap,body.sheeting footer.foot,body.sheeting .sheetbar{display:none!important}
+  body.sheeting #sheet{display:block!important;position:static;padding:0;background:#fff}
+  body.sheeting .nm{filter:none!important}
   section[data-view][hidden]{display:block!important}
   section[data-view]{break-before:page}
   section[data-view="dash"]{break-before:auto}
@@ -258,7 +285,7 @@ footer.foot{max-width:1180px;margin:0 auto;padding:6px 18px 40px;font-size:12px;
       <div class="facts">
         <span>ຜູ້ຮັບຜິດຊອບ <b class="ed" data-p="shop.owner">ນານີ ໄຊຍະແສນ</b></span>
         <span>ໂທ <b class="ed" data-p="shop.phone">98245194</b></span>
-        <span>ບັນຊີ <b class="ed" data-p="shop.acct">1601 2000 **** 8001</b></span>
+        <span>ບັນຊີ <b class="ed" data-p="shop.acct">1601 **** 8001</b></span>
       </div>
     </div>
     <div class="meta">
@@ -286,7 +313,7 @@ footer.foot{max-width:1180px;margin:0 auto;padding:6px 18px 40px;font-size:12px;
 
 <div class="wrap">
   <div class="hint-edit">
-    ໂໝດແກ້ໄຂເປີດຢູ່ — ກົດໃສ່ຕົວເລກ ຫຼື ຂໍ້ຄວາມທີ່ມີກອບຈຸດ ເພື່ອພິມທັບໄດ້ເລີຍ · ຍອດລວມ, ອັດຕາກຳໄລ ແລະ ກຣາຟ ຈະຄິດໄລ່ໃໝ່ໃຫ້ອັດຕະໂນມັດ · ແກ້ແລ້ວກົດ <b>ບັນທຶກຂຶ້ນເວັບ</b> ເພື່ອໃຫ້ທຸກຄົນທີ່ເປີດລິ້ງເຫັນສະບັບໃໝ່
+    ໂໝດແກ້ໄຂເປີດຢູ່ — ກົດໃສ່ຕົວເລກ ຫຼື ຂໍ້ຄວາມທີ່ມີກອບຈຸດ ເພື່ອພິມທັບໄດ້ເລີຍ · ຍອດລວມ, ອັດຕາກຳໄລ ແລະ ກຣາຟ ຈະຄິດໄລ່ໃໝ່ໃຫ້ອັດຕະໂນມັດ · ແກ້ແລ້ວກົດ <b>ບັນທຶກຂຶ້ນເວັບ</b> — ໃຊ້ລິ້ງດຽວກັນທັງໝົດ ຄົນທີ່ເປີດຄ້າງໄວ້ຈະເຫັນຂໍ້ມູນໃໝ່ເອງ ບໍ່ຕ້ອງສົ່ງໄຟລ໌ໃໝ່
   </div>
 
   <section data-view="dash">
@@ -384,12 +411,39 @@ footer.foot{max-width:1180px;margin:0 auto;padding:6px 18px 40px;font-size:12px;
             <tr><td>ຄຳອະທິບາຍ</td><td><span class="ed" data-p="shop.tagline"></span></td></tr>
             <tr><td>ຜູ້ຮັບຜິດຊອບ</td><td><span class="ed" data-p="shop.owner"></span></td></tr>
             <tr><td>ເບີໂທ</td><td><span class="ed" data-p="shop.phone"></span></td></tr>
-            <tr><td>ເລກບັນຊີ</td><td><span class="ed" data-p="shop.acct"></span></td></tr>
+            <tr><td>ເລກບັນຊີ<small class="viewonly">ເຫັນເຕັມສະເພາະເຈົ້າຂອງທີ່ປົດລັອກແລ້ວ</small></td><td><span class="ed" data-p="shop.acct"></span></td></tr>
             <tr><td>ໄລຍະລາຍງານ</td><td><span class="ed" data-p="period"></span></td></tr>
             <tr><td>ບັນທຶກຂໍ້ມູນລ່າສຸດ</td><td><span class="ed" data-p="updated"></span></td></tr>
           </tbody>
         </table></div>
       </div>
+      <div class="card lockonly" id="owner-card">
+        <h2>ຕັ້ງຄ່າສະເພາະເຈົ້າຂອງ</h2>
+        <div class="hint">ສອງຢ່າງນີ້ເກັບໄວ້ໃນເບົາເຊີເຄື່ອງນີ້ເທົ່ານັ້ນ — ບໍ່ຖືກບັນທຶກລົງໄຟລ໌ ຄົນອື່ນຈຶ່ງບໍ່ເຫັນ</div>
+
+        <div class="setgrp">
+          <b>ເລກບັນຊີເຕັມ (ໃຊ້ພິມໃສ່ໃບບິນ)</b>
+          <div class="hint" style="margin:2px 0 0">ໃນໄຟລ໌ເກັບແຕ່ເລກຫຍໍ້ ເລກເຕັມຢູ່ໃນເຄື່ອງນີ້ ຈຶ່ງບໍ່ຮົ່ວອອກສາທາລະນະ</div>
+          <input class="cardin" id="acct-in" type="text" autocomplete="off" spellcheck="false">
+          <div class="act">
+            <button class="sm" id="acct-save">ບັນທຶກໄວ້ໃນເຄື່ອງ</button>
+            <button class="ghost sm" id="acct-clear">ລຶບອອກ</button>
+          </div>
+        </div>
+
+        <div class="setgrp" id="gh-grp">
+          <b>ກຸນແຈ GitHub (ບັນທຶກຂຶ້ນເວັບໂດຍກົງ)</b>
+          <div class="hint" style="margin:2px 0 0">ໃສ່ໄວ້ເທື່ອດຽວ — ຈາກນັ້ນກົດ <b>ບັນທຶກຂຶ້ນເວັບ</b> ຂໍ້ມູນຈະຂຶ້ນເວັບທັນທີ ຄົນອື່ນພຽງແຕ່ refresh ກໍເຫັນ</div>
+          <input class="cardin" id="gh-in" type="password" autocomplete="off" spellcheck="false">
+          <div class="act">
+            <button class="sm" id="gh-save">ບັນທຶກກຸນແຈ</button>
+            <button class="sm" id="gh-test">ທົດສອບການເຊື່ອມຕໍ່</button>
+            <button class="ghost sm" id="gh-clear">ລຶບອອກ</button>
+          </div>
+          <div class="hint" id="gh-status" style="margin-top:7px"></div>
+        </div>
+      </div>
+
       <div class="card">
         <h2>ຊັບສິນອື່ນ ແລະ ເງິນສົດນອກບັນຊີ</h2>
         <div class="hint">ລາຍການທີ່ບໍ່ແມ່ນເງິນໃນບັນຊີ ແຕ່ນັບເປັນຊັບສິນຂອງຮ້ານ</div>
@@ -405,13 +459,27 @@ footer.foot{max-width:1180px;margin:0 auto;padding:6px 18px 40px;font-size:12px;
   <div>ບັນທຶກຂໍ້ມູນລ່າສຸດ <span class="ed" data-p="updated">3/9/2026 22:09</span></div>
 </footer>
 
+<div class="modal" id="modal" hidden>
+  <div class="box" role="dialog" aria-modal="true">
+    <h3 id="m-title"></h3>
+    <div class="sub" id="m-sub"></div>
+    <input id="m-in1" type="password" autocomplete="off" spellcheck="false">
+    <input id="m-in2" type="password" autocomplete="off" spellcheck="false" hidden>
+    <div class="err" id="m-err" hidden></div>
+    <div class="acts">
+      <button class="sm" id="m-cancel">ຍົກເລີກ</button>
+      <button class="sm primary" id="m-ok">ຢືນຢັນ</button>
+    </div>
+  </div>
+</div>
+
 <div id="sheet"></div>
 
 <div class="toast" id="toast"></div>
 
 <script id="doc-data" type="application/json">
 {
- "shop": {"name":"ຮ້ານ ເອັນແອນເອັນ","tagline":"ບົດລາຍງານການເງິນ ແລະ ຜົນປະກອບການ","owner":"ນານີ ໄຊຍະແສນ","phone":"98245194","acct":"1601 2000 **** 8001"},
+ "shop": {"name":"ຮ້ານ ເອັນແອນເອັນ","tagline":"ບົດລາຍງານການເງິນ ແລະ ຜົນປະກອບການ","owner":"ນານີ ໄຊຍະແສນ","phone":"98245194","acct":"1601 **** 8001"},
  "period": "ໄລຍະ 6 ສິງຫາ – 3 ກັນຍາ 2026",
  "updated": "3/9/2026 22:09",
  "carryRev": 19067000,
@@ -440,6 +508,7 @@ footer.foot{max-width:1180px;margin:0 auto;padding:6px 18px 40px;font-size:12px;
   {"label":"ປັບຍອດຕາມບັນຊີຈິງ 14/8/2026","note":"ອະທິບາຍໄດ້ແລ້ວ 8,279,205 · ຍັງບໍ່ຮູ້ສາເຫດ 3,515,795","amount":-11795000}
  ],
  "asOf": "2026-09-05",
+ "gh": {"owner":"latjanaphone31-oss","repo":"nn-finance-report","path":"index.html","branch":"main"},
  "passHash": "d4bd3532",
  "invoices": [
   {
@@ -889,6 +958,7 @@ const $ = id => document.getElementById(id);
 const DATA = JSON.parse($("doc-data").textContent);
 let EDIT = false;
 let SEL = null;          /* ໃບບິນທີ່ກຳລັງເປີດເບິ່ງ */
+let READY = false;       /* render ຮອບທຳອິດແລ້ວ ຫຼື ຍັງ */
 let OWNER = false;       /* ປົດລັອກດ້ວຍລະຫັດແລ້ວ ຫຼື ບໍ່ */
 
 /* ---------- helpers ---------- */
@@ -906,6 +976,19 @@ const pctTxt = (a, b) => b ? nm((a / b * 100).toFixed(1) + "%") : "—";
 /* ຊ່ອງແກ້ໄຂໄດ້: t=n ຄືຕົວເລກ, t=t ຄືຂໍ້ຄວາມ */
 const ed = (path, val, t) => '<span class="ed" data-p="' + path + '" data-t="' + (t || "t") + '">'
   + (t === "n" ? fmt(val) : wrapNums(val)) + "</span>";
+
+/* ເລກບັນຊີ: ຄົນທົ່ວໄປເຫັນແບບປິດບັງ ເຈົ້າຂອງທີ່ປົດລັອກແລ້ວຈຶ່ງເຫັນເຕັມ */
+/* ຄ່າລັບທີ່ເກັບໄວ້ໃນເບົາເຊີເຄື່ອງນີ້ເທົ່ານັ້ນ (ບໍ່ເຄີຍຢູ່ໃນໄຟລ໌) */
+function localGet(k) { try { return localStorage.getItem(k) || ""; } catch (e) { return ""; } }
+function localSet(k, v) { try { v ? localStorage.setItem(k, v) : localStorage.removeItem(k); } catch (e) { } }
+
+function acctText() {
+  const a = String(DATA.shop.acct || "");
+  if (OWNER) return localGet("nn-acct") || a;
+  const d = a.replace(/\D/g, "");
+  if (d.length < 10 || d.length !== a.length) return a;   /* ປິດບັງໄວ້ແລ້ວ ຫຼື ສັ້ນເກີນ — ປ່ອຍຕາມເດີມ */
+  return d.slice(0, 4) + " **** " + d.slice(-4);
+}
 
 /* ---------- ໃບບິນ ---------- */
 const invTotal = i => (i.items || []).reduce((a, x) => a + n(x.a), 0);
@@ -1178,7 +1261,7 @@ function buildSheet(i) {
     '<div class="inv">'
     + '<div class="ihead"><div class="mark">N</div>'
     + '<div class="who"><h1>' + esc(sh.name) + "</h1>"
-    + '<div class="s">ຜູ້ຮັບຜິດຊອບ ' + esc(sh.owner) + " · ໂທ " + esc(sh.phone) + "<br>ບັນຊີ LDB " + esc(sh.acct) + "</div></div>"
+    + '<div class="s">ຜູ້ຮັບຜິດຊອບ ' + esc(sh.owner) + " · ໂທ " + esc(sh.phone) + "<br>ບັນຊີ LDB " + esc(acctText()) + "</div></div>"
     + '<div class="no">ເລກທີ<b>' + esc(v.no) + "</b>ວັນທີ " + dmy(v.date) + "<br>ຄົບກຳນົດ " + dmy(v.due) + "</div></div>"
     + '<h2 class="t">ໃບສົ່ງເຄື່ອງ / ໃບຮຽກເກັບເງິນ</h2>'
     + '<div class="meta"><div class="box"><div class="lab">ຮຽນ ລູກຄ້າ</div><b>' + esc(v.cust) + "</b>"
@@ -1193,7 +1276,7 @@ function buildSheet(i) {
     + (n(v.paid) ? '<tr class="sum"><td colspan="5" class="m">ຫັກ ຮັບຊຳລະແລ້ວ</td><td class="m">' + fmtRaw(v.paid) + "</td></tr>" : "")
     + '<tr class="due"><td colspan="5" class="m">ຍອດທີ່ຕ້ອງຊຳລະ</td><td class="m">' + fmtRaw(bal) + "</td></tr></tfoot></table>"
     + '<div class="ifoot"><div class="pay"><div class="lab">ຊຳລະຜ່ານບັນຊີທະນາຄານ</div>'
-    + "<b>" + esc(sh.acct) + "</b><div class=\"lab\">ຊື່ບັນຊີ " + esc(sh.owner) + " · ທະນາຄານ LDB</div></div>"
+    + "<b>" + esc(acctText()) + "</b><div class=\"lab\">ຊື່ບັນຊີ " + esc(sh.owner) + " · ທະນາຄານ LDB</div></div>"
     + '<div class="pay"><div class="lab">ຕິດຕໍ່ສອບຖາມ</div><b>' + esc(sh.phone) + "</b>"
     + '<div class="lab">' + esc(sh.name) + "</div></div></div>"
     + (v.note ? '<div class="note">ໝາຍເຫດ: ' + esc(v.note) + "</div>" : "")
@@ -1201,13 +1284,27 @@ function buildSheet(i) {
     + "</div>";
 }
 
+/* ເປີດໃບບິນເຕັມຈໍ — ບໍ່ເອີ້ນ window.print() ທັນທີ ເພາະໃນ artifact ຖືກບລັອກ */
 function printInvoice(i) {
   buildSheet(i);
-  document.body.classList.add("print-invoice");
-  const done = () => { document.body.classList.remove("print-invoice"); window.removeEventListener("afterprint", done); };
-  window.addEventListener("afterprint", done);
-  setTimeout(() => { window.print(); setTimeout(done, 1500); }, 60);
+  const bar = document.createElement("div");
+  bar.className = "sheetbar";
+  bar.innerHTML = '<button class="sm primary" id="sheet-print">ພິມ / ບັນທຶກ PDF</button>'
+    + '<button class="sm" id="sheet-close">ປິດ</button>'
+    + '<span class="hint2">' + (hasRuntime()
+      ? "ຢູ່ໃນລິ້ງແຊຮ໌ ປຸ່ມພິມອາດຖືກລະບົບບລັອກ — ໃຫ້ກົດ Ctrl/Cmd + P ຂອງເບົາເຊີແທນ"
+      : "ເລືອກ Save as PDF ໃນໜ້າຕ່າງພິມ ເພື່ອສົ່ງໃຫ້ລູກຄ້າ") + "</span>";
+  $("sheet").prepend(bar);
+  document.body.classList.add("sheeting");
+  window.scrollTo(0, 0);
+  $("sheet-close").addEventListener("click", closeSheet);
+  $("sheet-print").addEventListener("click", () => {
+    try { window.print(); } catch (e) { }
+    toast("ຖ້າບໍ່ມີໜ້າຕ່າງພິມຂຶ້ນມາ ໃຫ້ກົດ Ctrl/Cmd + P");
+  });
 }
+function closeSheet() { document.body.classList.remove("sheeting"); $("sheet").innerHTML = ""; }
+document.addEventListener("keydown", e => { if (e.key === "Escape" && document.body.classList.contains("sheeting")) closeSheet(); });
 
 /* ---------- ທຶນສຳຮອງ + ຜູ້ຖືຫຸ້ນ ---------- */
 function renderDiv(c) {
@@ -1260,7 +1357,7 @@ function render() {
   renderPl(c); renderCash(c); renderAr(c); renderDiv(c); renderOther(c); renderNotes();
   /* ຊ່ອງໃນຫົວເວັບ ແລະ footer */
   document.querySelectorAll("header [data-p], footer [data-p], #set-info [data-p]").forEach(el => {
-    el.innerHTML = wrapNums(getPath(el.dataset.p) ?? "");
+    el.innerHTML = wrapNums(el.dataset.p === "shop.acct" ? acctText() : (getPath(el.dataset.p) ?? ""));
   });
   document.querySelectorAll(".ed").forEach(el => {
     el.contentEditable = EDIT ? "true" : "false";
@@ -1374,6 +1471,36 @@ function toggleEdit(on) {
 }
 $("btn-edit").addEventListener("click", () => toggleEdit());
 
+/* ---------- ກ່ອງໂຕ້ຕອບໃນໜ້າ ----------
+   ໃນ artifact ໜ້ານີ້ຢູ່ໃນ iframe ແບບ sandbox ທີ່ບໍ່ອະນຸຍາດ prompt/alert
+   ຈຶ່ງຕ້ອງເຮັດກ່ອງຮັບຄ່າເອງ ບໍ່ດັ່ງນັ້ນກົດປຸ່ມແລ້ວຈະບໍ່ມີຫຍັງເກີດຂຶ້ນ */
+let mResolve = null;
+function ask({ title, sub, two, okText, err }) {
+  $("m-title").textContent = title;
+  $("m-sub").textContent = sub || "";
+  $("m-in1").value = ""; $("m-in2").value = "";
+  $("m-in1").placeholder = two ? "ລະຫັດໃໝ່" : "ລະຫັດ";
+  $("m-in2").placeholder = "ພິມລະຫັດໃໝ່ອີກຄັ້ງ";
+  $("m-in2").hidden = !two;
+  $("m-err").textContent = err || ""; $("m-err").hidden = !err;
+  $("m-ok").textContent = okText || "ຢືນຢັນ";
+  $("modal").hidden = false;
+  setTimeout(() => $("m-in1").focus(), 30);
+  return new Promise(res => { mResolve = res; });
+}
+function askClose(val) {
+  $("modal").hidden = true;
+  const r = mResolve; mResolve = null;
+  if (r) r(val);
+}
+$("m-cancel").addEventListener("click", () => askClose(null));
+$("m-ok").addEventListener("click", () => askClose({ a: $("m-in1").value, b: $("m-in2").value }));
+$("modal").addEventListener("click", e => { if (e.target === $("modal")) askClose(null); });
+$("modal").addEventListener("keydown", e => {
+  if (e.key === "Enter") { e.preventDefault(); $("m-ok").click(); }
+  if (e.key === "Escape") askClose(null);
+});
+
 /* ---------- ລະຫັດເຈົ້າຂອງ ---------- */
 /* ໝາຍເຫດ: ລະຫັດນີ້ກັນການແກ້ໄຂໂດຍບັງເອີນ ບໍ່ແມ່ນລະບົບຮັກສາຄວາມປອດໄພລະດັບທະນາຄານ
    ສິ່ງທີ່ກັນຈິງໆ ຄື ຄົນອື່ນບັນທຶກທັບເວັບບໍ່ໄດ້ ເພາະບໍ່ມີສິດຂຽນໃສ່ GitHub / Artifact */
@@ -1390,27 +1517,38 @@ function setOwner(on) {
   $("btn-lock").classList.toggle("primary", false);
   if (!on && EDIT) toggleEdit(false);
   try { localStorage.setItem("nn-owner", on ? "1" : "0"); } catch (e) { }
+  if (READY) render();
 }
-$("btn-lock").addEventListener("click", () => {
+$("btn-lock").addEventListener("click", async () => {
   if (OWNER) { setOwner(false); toast("ລັອກແລ້ວ — ໜ້ານີ້ເປັນແບບເບິ່ງຢ່າງດຽວ"); return; }
-  const code = prompt("ໃສ່ລະຫັດເຈົ້າຂອງ ເພື່ອປົດລັອກການແກ້ໄຂ");
-  if (code == null) return;
-  if (hashCode(code) === DATA.passHash) { setOwner(true); toast("ປົດລັອກແລ້ວ — ແກ້ໄຂ ແລະ ບັນທຶກໄດ້"); }
-  else toast("ລະຫັດບໍ່ຖືກຕ້ອງ");
+  let err = "";
+  for (;;) {
+    const r = await ask({
+      title: "ໃສ່ລະຫັດເຈົ້າຂອງ",
+      sub: "ປົດລັອກເພື່ອແກ້ໄຂຂໍ້ມູນ, ສ້າງໃບບິນ ແລະ ເບິ່ງເລກບັນຊີເຕັມ",
+      okText: "ປົດລັອກ", err
+    });
+    if (r == null) return;
+    if (hashCode(r.a) === DATA.passHash) { setOwner(true); toast("ປົດລັອກແລ້ວ — ແກ້ໄຂ ແລະ ບັນທຶກໄດ້"); return; }
+    err = "ລະຫັດບໍ່ຖືກຕ້ອງ ລອງໃໝ່ອີກຄັ້ງ";
+  }
 });
-$("btn-pass").addEventListener("click", () => {
+$("btn-pass").addEventListener("click", async () => {
   if (!OWNER) return;
-  const a = prompt("ຕັ້ງລະຫັດໃໝ່ (ຢ່າງໜ້ອຍ 4 ໂຕອັກສອນ)");
-  if (a == null) return;
-  if (a.length < 4) { toast("ລະຫັດສັ້ນເກີນໄປ"); return; }
-  const b = prompt("ພິມລະຫັດໃໝ່ອີກຄັ້ງ ເພື່ອຢືນຢັນ");
-  if (b == null) return;
-  if (a !== b) { toast("ລະຫັດສອງຄັ້ງບໍ່ຕົງກັນ"); return; }
-  DATA.passHash = hashCode(a);
+  const r = await ask({
+    title: "ປ່ຽນລະຫັດເຈົ້າຂອງ",
+    sub: "ຢ່າງໜ້ອຍ 4 ໂຕອັກສອນ · ປ່ຽນແລ້ວຕ້ອງກົດ ບັນທຶກຂຶ້ນເວັບ ຈຶ່ງມີຜົນກັບທຸກຄົນ",
+    two: true, okText: "ປ່ຽນລະຫັດ"
+  });
+  if (r == null) return;
+  if (r.a.length < 4) { toast("ລະຫັດສັ້ນເກີນໄປ"); return; }
+  if (r.a !== r.b) { toast("ລະຫັດສອງຄັ້ງບໍ່ຕົງກັນ"); return; }
+  DATA.passHash = hashCode(r.a);
   markDirty();
-  toast("ປ່ຽນລະຫັດແລ້ວ — ຢ່າລືມກົດ ບັນທຶກ ເພື່ອໃຫ້ມີຜົນ");
+  toast("ປ່ຽນລະຫັດແລ້ວ — ຢ່າລືມກົດ ບັນທຶກຂຶ້ນເວັບ");
 });
 try { if (localStorage.getItem("nn-owner") === "1") setOwner(true); else setOwner(false); } catch (e) { setOwner(false); }
+
 
 /* ---------- ສ້າງໄຟລ໌ສະບັບໃໝ່ຈາກໂຄງຕົ້ນສະບັບ + ຂໍ້ມູນປັດຈຸບັນ ---------- */
 function buildDoc() {
@@ -1436,14 +1574,29 @@ $("btn-save").addEventListener("click", async () => {
   setPill("ກຳລັງບັນທຶກ…", "saving");
   const artifact = hasRuntime() ? await claude.use("artifact") : null;
   if (!artifact) {
-    saveAsFile(buildDoc()); dirty = false;
+    const html = buildDoc();
+    if (localGet(GH_KEY)) {
+      try {
+        await ghPut(html);
+        dirty = false; setPill("ຂຶ້ນເວັບແລ້ວ", "saved");
+        toast("ບັນທຶກຂຶ້ນເວັບແລ້ວ — ຄົນອື່ນກົດ refresh ກໍເຫັນຂໍ້ມູນໃໝ່ທັນທີ");
+      } catch (err) {
+        setPill("ບັນທຶກບໍ່ສຳເລັດ", "error");
+        if (err.code === "auth") toast("ກຸນແຈ GitHub ໝົດອາຍຸ ຫຼື ບໍ່ມີສິດຂຽນ — ຕັ້ງໃໝ່ໃນແທັບ ຕັ້ງຄ່າ");
+        else if (err.code === "conflict") toast("ມີການແກ້ໄຂຈາກບ່ອນອື່ນກ່ອນ — ກົດ refresh ແລ້ວແກ້ໃໝ່");
+        else toast("ບັນທຶກຂຶ້ນເວັບບໍ່ສຳເລັດ ລອງໃໝ່ອີກຄັ້ງ");
+      }
+      return;
+    }
+    saveAsFile(html); dirty = false;
     setPill("ບັນທຶກເປັນໄຟລ໌ແລ້ວ", "saved");
     toast("ໄດ້ໄຟລ໌ index.html — ອັບໂຫຼດທັບໃນ GitHub ເພື່ອໃຫ້ເວັບເປັນສະບັບໃໝ່");
     return;
   }
   try {
     await artifact.publish(buildDoc());
-    dirty = false; setPill("ບັນທຶກຂຶ້ນເວັບແລ້ວ", "saved"); toast("ບັນທຶກແລ້ວ — ທຸກຄົນທີ່ເປີດລິ້ງຈະເຫັນສະບັບໃໝ່");
+    dirty = false; setPill("ບັນທຶກຂຶ້ນເວັບແລ້ວ", "saved");
+    toast("ບັນທຶກແລ້ວ — ໜ້າຈໍຂອງທຸກຄົນທີ່ເປີດລິ້ງນີ້ຢູ່ ຈະອັບເດດເອງທັນທີ");
   } catch (err) {
     const code = err && err.code;
     if (code === "conflict") { setPill("ມີສະບັບໃໝ່ກວ່າ", "error"); toast("ມີຄົນບັນທຶກກ່ອນ — ໜ້ານີ້ຈະໂຫຼດສະບັບລ່າສຸດ"); }
@@ -1471,6 +1624,71 @@ function setHide(on) {
 $("btn-hide").addEventListener("click", () => setHide(!document.body.classList.contains("hidenum")));
 try { if (localStorage.getItem("nn-hide") === "1") setHide(true); } catch (e) { }
 
+/* ---------- ບັນທຶກຂຶ້ນ GitHub ໂດຍກົງ ----------
+   ກຸນແຈຢູ່ໃນເບົາເຊີເຈົ້າຂອງເທົ່ານັ້ນ ບໍ່ເຄີຍຖືກຂຽນລົງໄຟລ໌ ຄົນອື່ນທີ່ເປີດລິ້ງຈຶ່ງບັນທຶກບໍ່ໄດ້ */
+const GH_KEY = "nn-ghkey";
+const ghApi = () => "https://api.github.com/repos/" + DATA.gh.owner + "/" + DATA.gh.repo
+  + "/contents/" + DATA.gh.path;
+const ghHead = (k) => ({ Authorization: "Bearer " + k, Accept: "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28" });
+
+function toB64(str) {
+  const bytes = new TextEncoder().encode(str);
+  let bin = "", CH = 0x8000;
+  for (let i = 0; i < bytes.length; i += CH) bin += String.fromCharCode.apply(null, bytes.subarray(i, i + CH));
+  return btoa(bin);
+}
+
+async function ghPut(html) {
+  const k = localGet(GH_KEY);
+  if (!k) throw { code: "nokey" };
+  const cur = await fetch(ghApi() + "?ref=" + DATA.gh.branch, { headers: ghHead(k), cache: "no-store" });
+  if (cur.status === 401 || cur.status === 403) throw { code: "auth" };
+  const sha = cur.ok ? (await cur.json()).sha : null;
+  const body = { message: "ອັບເດດຂໍ້ມູນການເງິນ " + new Date().toLocaleString(), content: toB64(html), branch: DATA.gh.branch };
+  if (sha) body.sha = sha;
+  const res = await fetch(ghApi(), { method: "PUT", headers: { ...ghHead(k), "Content-Type": "application/json" }, body: JSON.stringify(body) });
+  if (res.status === 401 || res.status === 403) throw { code: "auth" };
+  if (res.status === 409) throw { code: "conflict" };
+  if (!res.ok) throw { code: "http", detail: res.status + " " + (await res.text()).slice(0, 160) };
+}
+
+function ghStatus(msg, cls) {
+  const el = $("gh-status");
+  el.innerHTML = msg;
+  el.style.color = cls === "ok" ? "var(--good)" : cls === "bad" ? "var(--bad)" : "var(--muted)";
+}
+function ghRefresh() {
+  const has = !!localGet(GH_KEY);
+  $("gh-in").value = "";
+  $("gh-in").placeholder = has ? "•••••••• ບັນທຶກກຸນແຈໄວ້ແລ້ວ" : "ວາງກຸນແຈທີ່ສ້າງຈາກ GitHub ໃສ່ບ່ອນນີ້";
+  ghStatus(has ? "ພ້ອມບັນທຶກຂຶ້ນເວັບໂດຍກົງ" : "ຍັງບໍ່ມີກຸນແຈ — ກົດບັນທຶກແລ້ວຈະໄດ້ເປັນໄຟລ໌ແທນ");
+  $("acct-in").value = "";
+  $("acct-in").placeholder = localGet("nn-acct") ? localGet("nn-acct") : "ຕົວຢ່າງ 1601 **** 8001";
+}
+$("gh-save").addEventListener("click", () => {
+  const v = $("gh-in").value.trim();
+  if (!v) { toast("ຍັງບໍ່ໄດ້ວາງກຸນແຈ"); return; }
+  localSet(GH_KEY, v); ghRefresh(); toast("ບັນທຶກກຸນແຈໄວ້ໃນເຄື່ອງນີ້ແລ້ວ");
+});
+$("gh-clear").addEventListener("click", () => { localSet(GH_KEY, ""); ghRefresh(); toast("ລຶບກຸນແຈອອກແລ້ວ"); });
+$("gh-test").addEventListener("click", async () => {
+  const k = localGet(GH_KEY);
+  if (!k) { ghStatus("ຍັງບໍ່ມີກຸນແຈ", "bad"); return; }
+  ghStatus("ກຳລັງທົດສອບ…");
+  try {
+    const r = await fetch(ghApi() + "?ref=" + DATA.gh.branch, { headers: ghHead(k), cache: "no-store" });
+    if (r.ok) ghStatus("ເຊື່ອມຕໍ່ໄດ້ ✓ ພ້ອມບັນທຶກຂຶ້ນເວັບ", "ok");
+    else if (r.status === 401 || r.status === 403) ghStatus("ກຸນແຈບໍ່ຖືກຕ້ອງ ຫຼື ບໍ່ມີສິດຂຽນ (HTTP " + r.status + ")", "bad");
+    else ghStatus("ຕິດຕໍ່ບໍ່ໄດ້ (HTTP " + r.status + ")", "bad");
+  } catch (e) { ghStatus("ຕິດຕໍ່ອິນເຕີເນັດບໍ່ໄດ້", "bad"); }
+});
+$("acct-save").addEventListener("click", () => {
+  const v = $("acct-in").value.trim();
+  localSet("nn-acct", v); ghRefresh(); render();
+  toast(v ? "ບັນທຶກເລກບັນຊີໄວ້ໃນເຄື່ອງນີ້ແລ້ວ" : "ລຶບແລ້ວ");
+});
+$("acct-clear").addEventListener("click", () => { localSet("nn-acct", ""); ghRefresh(); render(); toast("ລຶບເລກບັນຊີອອກແລ້ວ"); });
+
 /* ---------- ໂໝດມືດ / ແຈ້ງ ---------- */
 $("btn-theme").addEventListener("click", () => {
   const cur = document.documentElement.getAttribute("data-theme");
@@ -1483,7 +1701,12 @@ try { const t = localStorage.getItem("nn-theme"); if (t) document.documentElemen
 
 window.addEventListener("beforeunload", e => { if (dirty) { e.preventDefault(); e.returnValue = ""; } });
 
+/* ຢູ່ໃນ artifact: ບໍ່ຕ້ອງມີປຸ່ມດາວໂຫຼດ (ຂໍ້ມູນຢູ່ບ່ອນດຽວ ອັບເດດສົດ) — ຢູ່ໄຟລ໌ພາຍນອກຈຶ່ງສະແດງ */
+if (hasRuntime()) $("btn-dl").hidden = true;
+
+READY = true;
 render();
+ghRefresh();
 try {
   const t = localStorage.getItem("nn-tab");
   if (t && document.querySelector('section[data-view="' + t + '"]')) go(t);
