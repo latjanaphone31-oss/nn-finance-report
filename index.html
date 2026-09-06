@@ -414,7 +414,7 @@ footer.foot{max-width:1180px;margin:0 auto;padding:6px 18px 40px;font-size:12px;
         </div>
         <div class="setgrp">
           <b>ກຸນແຈ GitHub (ບັນທຶກຂຶ້ນເວັບໂດຍກົງ)</b>
-          <div class="hint" style="margin:2px 0 0">ໃສ່ໄວ້ເທື່ອດຽວ — ຈາກນັ້ນກົດ <b>ບັນທຶກຂຶ້ນເວັບ</b> ຂໍ້ມູນຈະຂຶ້ນເວັບທັນທີ ຄົນອື່ນພຽງແຕ່ refresh ກໍເຫັນ</div>
+          <div class="hint" style="margin:2px 0 0">ໃສ່ໄວ້ເທື່ອດຽວ — ຈາກນັ້ນກົດ <b>ບັນທຶກຂຶ້ນເວັບ</b> ຂໍ້ມູນຈະຖືກສົ່ງຂຶ້ນ GitHub ທັນທີ ຄົນອື່ນພຽງແຕ່ refresh ກໍເຫັນຂໍ້ມູນໃໝ່</div>
           <input class="cardin" id="gh-in" type="password" autocomplete="off" spellcheck="false">
           <div class="act">
             <button class="sm" id="gh-save">ບັນທຶກກຸນແຈ</button>
@@ -508,7 +508,7 @@ footer.foot{max-width:1180px;margin:0 auto;padding:6px 18px 40px;font-size:12px;
   {"label":"ປັບຍອດຕາມບັນຊີຈິງ 14/8/2026","note":"ອະທິບາຍໄດ້ແລ້ວ 8,279,205 · ຍັງບໍ່ຮູ້ສາເຫດ 3,515,795","amount":-11795000}
  ],
  "asOf": "2026-09-05",
- "gh": {"owner":"latjanaphone31-oss","repo":"nn-finance-report","path":"index.html","branch":"main"},
+ "gh": {"owner":"latjanaphone31-oss","repo":"nn-finance-report","path":"data.json","branch":"main"},
  "passHash": "d4bd3532",
  "invoices": [
   {
@@ -1577,9 +1577,9 @@ $("btn-save").addEventListener("click", async () => {
     const html = buildDoc();
     if (localGet(GH_KEY)) {
       try {
-        await ghPut(html);
+        await ghPut(JSON.stringify(DATA, null, 1));
         dirty = false; setPill("ຂຶ້ນເວັບແລ້ວ", "saved");
-        toast("ບັນທຶກຂຶ້ນເວັບແລ້ວ — ຄົນອື່ນກົດ refresh ກໍເຫັນຂໍ້ມູນໃໝ່ທັນທີ");
+        toast("ບັນທຶກຂຶ້ນເວັບແລ້ວ — ຄົນອື່ນກົດ refresh ກໍເຫັນຂໍ້ມູນໃໝ່");
       } catch (err) {
         setPill("ບັນທຶກບໍ່ສຳເລັດ", "error");
         if (err.code === "auth") toast("ກຸນແຈ GitHub ໝົດອາຍຸ ຫຼື ບໍ່ມີສິດຂຽນ — ຕັ້ງໃໝ່ໃນແທັບ ຕັ້ງຄ່າ");
@@ -1623,6 +1623,28 @@ function setHide(on) {
 }
 $("btn-hide").addEventListener("click", () => setHide(!document.body.classList.contains("hidenum")));
 try { if (localStorage.getItem("nn-hide") === "1") setHide(true); } catch (e) { }
+
+/* ---------- ດຶງຂໍ້ມູນຫຼ້າສຸດຈາກ GitHub ----------
+   ຂໍ້ມູນຢູ່ໃນໄຟລ໌ data.json ແຍກຕ່າງຫາກ ໜ້າເວັບຈຶ່ງດຶງສະບັບຫຼ້າສຸດໄດ້ທຸກຄັ້ງທີ່ເປີດ
+   (ຖ້າດຶງບໍ່ໄດ້ ຈະໃຊ້ຂໍ້ມູນທີ່ຝັງມາກັບໜ້າ — ໜ້າຈຶ່ງບໍ່ເຄີຍວ່າງ) */
+const rawUrl = () => "https://raw.githubusercontent.com/" + DATA.gh.owner + "/" + DATA.gh.repo
+  + "/" + DATA.gh.branch + "/" + DATA.gh.path + "?t=" + Date.now();
+
+async function pullRemote() {
+  if (!DATA.gh || hasRuntime()) return;          /* ໃນ artifact ດຶງຂ້າມໂດເມນບໍ່ໄດ້ */
+  try {
+    const r = await fetch(rawUrl(), { cache: "no-store" });
+    if (!r.ok) return;                            /* ຍັງບໍ່ມີໄຟລ໌ — ໃຊ້ຂໍ້ມູນທີ່ຝັງມາ */
+    const d = await r.json();
+    if (!d || !Array.isArray(d.units)) return;    /* ຂໍ້ມູນຜິດຮູບແບບ — ບໍ່ເອົາ */
+    const gh = DATA.gh;
+    for (const k of Object.keys(DATA)) delete DATA[k];
+    Object.assign(DATA, d);
+    DATA.gh = d.gh || gh;
+    render(); ghRefresh();
+    setPill("ຂໍ້ມູນຫຼ້າສຸດ", "saved");
+  } catch (e) { /* ອອບລາຍ ຫຼື ຕິດຕໍ່ບໍ່ໄດ້ — ໃຊ້ຂໍ້ມູນທີ່ຝັງມາ */ }
+}
 
 /* ---------- ບັນທຶກຂຶ້ນ GitHub ໂດຍກົງ ----------
    ກຸນແຈຢູ່ໃນເບົາເຊີເຈົ້າຂອງເທົ່ານັ້ນ ບໍ່ເຄີຍຖືກຂຽນລົງໄຟລ໌ ຄົນອື່ນທີ່ເປີດລິ້ງຈຶ່ງບັນທຶກບໍ່ໄດ້ */
@@ -1707,6 +1729,7 @@ if (hasRuntime()) $("btn-dl").hidden = true;
 READY = true;
 render();
 ghRefresh();
+pullRemote();
 try {
   const t = localStorage.getItem("nn-tab");
   if (t && document.querySelector('section[data-view="' + t + '"]')) go(t);
