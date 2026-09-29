@@ -19,8 +19,8 @@
  "units": [
   {
    "name": "Pre-order & Trading",
-   "note": "ລວມບິນ N:0047, N:0048, N:0049 GO+MART 1 · ຕົ້ນທຶນຈາກເງິນບາດ 1,748,640",
-   "rev": 23592500,
+   "note": "ລວມບິນ N:0047, N:0048, N:0049 GO+MART 1 · ຕົ້ນທຶນຈາກເງິນບາດ 1,748,640 · ບິນ N:0054, N:0055 (3,090,000)",
+   "rev": 26682500,
    "cogs": 11381140
   },
   {
@@ -1023,7 +1023,7 @@
    "due": "2026-10-13",
    "cust": "GO+MART1",
    "addr": "",
-   "unit": "",
+   "unit": "Pre-order & Trading",
    "note": "—",
    "paid": 0,
    "items": [
@@ -1084,7 +1084,7 @@
    "due": "2026-10-13",
    "cust": "GO+MART2",
    "addr": "",
-   "unit": "",
+   "unit": "Pre-order & Trading",
    "note": "",
    "paid": 0,
    "items": [
@@ -1208,4 +1208,4 @@
    "amount": 1637000
   }
  ]
-}
+  }
