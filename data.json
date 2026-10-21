@@ -1260,7 +1260,7 @@
    "date": "2026-10-15",
    "type": "opex",
    "unit": "Pre-order & Trading",
-   "desc": "g",
+   "desc": "ค่าขนส่ง",
    "amount": 250000
   },
   {
@@ -1269,6 +1269,13 @@
    "unit": "Pre-order & Trading",
    "desc": "ค่าขนส่ง",
    "amount": 140000
+  },
+  {
+   "date": "2026-10-20",
+   "type": "opex",
+   "unit": "Pre-order & Trading",
+   "desc": "ค่าวุ้น ค่าผลไม้ ค่าน้ำมัน",
+   "amount": 347999.28
   }
  ]
 }
