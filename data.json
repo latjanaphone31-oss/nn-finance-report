@@ -108,6 +108,12 @@
    "note": "21/10/2026 · ໂອນເຂົ້າບັນຊີ LDB",
    "amount": 382000,
    "payId": "pmvi6k9yj"
+  },
+  {
+   "label": "ຮັບຊຳລະ N:0045 · GO+MART 1",
+   "note": "10/11/2026 · ໂອນເຂົ້າບັນຊີ LDB",
+   "amount": 256000,
+   "payId": "pmwa3i2wa"
   }
  ],
  "asOf": "2026-09-29",
@@ -495,7 +501,7 @@
    "addr": "",
    "unit": "Pre-order & Trading",
    "note": "",
-   "paid": 0,
+   "paid": 256000,
    "items": [
     {
      "d": "ผลไม้ดอง",
@@ -510,6 +516,14 @@
      "u": "ກ່ອງ",
      "p": 18000,
      "a": 144000
+    }
+   ],
+   "payments": [
+    {
+     "id": "pmwa3i2wa",
+     "date": "2026-11-10",
+     "amount": 256000,
+     "note": "ໂອນເຂົ້າບັນຊີ LDB"
     }
    ]
   },
@@ -1351,13 +1365,6 @@
    "unit": "Pre-order & Trading",
    "desc": "ค่าวุ้น ค่าผลไม้ ค่าน้ำมัน",
    "amount": 347999.28
-  },
-  {
-   "date": "2026-11-01",
-   "type": "income",
-   "unit": "Pre-order & Trading",
-   "desc": "khg",
-   "amount": 2638500
   },
   {
    "date": "2026-11-07",
