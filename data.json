@@ -1276,6 +1276,27 @@
    "unit": "Pre-order & Trading",
    "desc": "ค่าวุ้น ค่าผลไม้ ค่าน้ำมัน",
    "amount": 347999.28
+  },
+  {
+   "date": "2026-11-01",
+   "type": "income",
+   "unit": "Pre-order & Trading",
+   "desc": "khg",
+   "amount": 2638500
+  },
+  {
+   "date": "2026-11-07",
+   "type": "capex",
+   "unit": "F&B (ເບເກີ/ນ້ຳ)",
+   "desc": "mor nueng",
+   "amount": 1951571.36
+  },
+  {
+   "date": "2026-11-10",
+   "type": "capex",
+   "unit": "Pre-order & Trading",
+   "desc": "ค่า สินค้า",
+   "amount": 939000
   }
  ]
 }
