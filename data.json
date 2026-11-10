@@ -1393,6 +1393,13 @@
    "unit": "Pre-order & Trading",
    "desc": "ค่า สินค้า",
    "amount": 939000
+  },
+  {
+   "date": "2026-11-10",
+   "type": "income",
+   "unit": "Pre-order & Trading",
+   "desc": "fg",
+   "amount": 232500
   }
  ]
 }
