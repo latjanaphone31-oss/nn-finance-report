@@ -1415,6 +1415,13 @@
    "unit": "Pre-order & Trading",
    "desc": "kha khg",
    "amount": 257500
+  },
+  {
+   "date": "2026-11-10",
+   "type": "cogs",
+   "unit": "Pre-order & Trading",
+   "desc": "ค่าสินค้าเข้าสาขานึง",
+   "amount": 4385000
   }
  ]
 }
